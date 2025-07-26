@@ -41,13 +41,7 @@ export function ResumePDF({ data }: ResumePDFProps) {
                 {/* Contact */}
                 <View style={styles.section}>
                     <Text style={styles.header}>{'Anthony Premo'}</Text>
-                    <Text>{'ajaipremo@gmail.com | (518) 481-4204 | https://www.linkedin.com/in/anthony-premo | https://github.com/premo14'}</Text>
-                </View>
-
-                {/* Professional Summary */}
-                <View style={styles.section}>
-                    <Text style={styles.header}>Professional Summary</Text>
-                    <Text>{data.professionalSummary}</Text>
+                    <Text>{'ajaipremo@gmail.com | premsanity.com | linkedin.com/in/anthony-premo | github.com/premo14'}</Text>
                 </View>
 
                 {/* Technical Skills */}

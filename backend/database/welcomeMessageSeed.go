@@ -17,7 +17,7 @@ func SeedWelcomeMessage() error {
 			log.Println("🌱 Seeding initial Welcome Message...")
 
 			initial := models.WelcomeMessage{
-				Message: "Seeded Welcome Message. Update it in the admin panel.",
+				Message: "I’m a software craftsman specializing in full stack systems—bringing clarity to code, structure to architecture, and stability from development to deployment.",
 			}
 
 			if err := DB.Create(&initial).Error; err != nil {

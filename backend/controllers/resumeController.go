@@ -52,7 +52,6 @@ func UpdateResume(c *fiber.Ctx) error {
 		})
 	}
 
-	resume.ProfessionalSummary = input.ProfessionalSummary
 	resume.TechnicalSkills = input.TechnicalSkills
 	resume.ProfessionalExperience = input.ProfessionalExperience
 	resume.Projects = input.Projects

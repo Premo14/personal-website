@@ -17,10 +17,9 @@ func SeedResume() error {
 			log.Println("🌱 Seeding initial Resume...")
 
 			initial := models.Resume{
-				ProfessionalSummary: "Full Stack Software Engineer with hands-on experience across web, mobile, backend, and cloud infrastructure. Passionate about building scalable, secure, and high-performance applications. Adept at adapting quickly in fast-paced environments and eager to contribute to mission-driven teams. Open to relocation and all work formats: remote, hybrid, or in person.",
 				TechnicalSkills: datatypes.JSON(`{
-					"languages": "Go, JavaScript, TypeScript",
-					"frameworks_libraries": "React, React Native, Express, Node.js, Vite",
+					"languages": "Go, TypeScript, Dart",
+					"frameworks_libraries": "React, Flutter, Node.js",
 					"databases": "PostgreSQL, MongoDB, MySQL, MariaDB",
 					"cloud": "AWS EC2, AWS ECR, AWS Route 53, AWS S3, AWS RDS",
 					"devops": "Docker, Terraform. NGINX, GitHub Actions",
@@ -28,10 +27,20 @@ func SeedResume() error {
 				}`),
 				ProfessionalExperience: datatypes.JSON(`[
 				  {
+                    "title": "Mobile Developer",
+                    "company": "UpNCoding (Contract)",
+                    "location": "Remote",
+                    "dateRange": "June 2025 - Present",
+                    "bullets": [
+                      "Built a tourism app using Flutter and Dart for the ADK Rail Trail",
+                      "Third party map integration"
+                    ]
+                  },
+				  {
 					"title": "Full Stack Engineer",
 					"company": "Immpression LLC",
 					"location": "Remote",
-					"dateRange": "May 2024 - Present",
+					"dateRange": "May 2024 - May 2025",
 					"bullets": [
 					  "Developed cross-platform mobile app with React Native, Node.js, and Express.js",
 					  "Built and maintained backend API with MongoDB integration",
@@ -53,8 +62,8 @@ func SeedResume() error {
 					]
 				  },
 				  {
-					"title": "Associate Java Developer (Pre-training)",
-					"company": "Revature",
+					"title": "Associate Java Developer",
+					"company": "Revature  (Pre-Training)",
 					"location": "Remote",
 					"dateRange": "Dec 2024 - Feb 2025",
 					"bullets": [
@@ -74,7 +83,18 @@ func SeedResume() error {
 					  "Troubleshot PCs, mobile devices, and security hardware onsite",
 					  "Configured Windows Server, macOS, and IP phone systems"
 					]
-				  }
+				  },
+                  {
+                    "title": "CTO & Lead Developer",
+                    "company": "Limitless Hoops (Startup)",
+                    "location": "Remote",
+                    "dateRange": "May 2025 - Present",
+                    "bullets": [
+                        "Installed and maintained POS systems, servers, and network equipment",
+                        "Troubleshot PCs, mobile devices, and security hardware onsite",
+                        "Configured Windows Server, macOS, and IP phone systems"
+                    ]
+                  }
 				]`),
 
 				Projects: datatypes.JSON(`[
@@ -84,7 +104,7 @@ func SeedResume() error {
 				  },
 				  {
 					"name": "UpNCoding Tourism App",
-					"description": "Laravel backend, MariaDB, React-based admin panel for Android/iOS"
+					"description": "Laravel, MariaDB, React-based admin panel for Android/iOS"
 				  },
 				  {
 					"name": "Personal Site",
@@ -93,7 +113,11 @@ func SeedResume() error {
 				  {
 					"name": "Revature Projects",
 					"description": "Java + Spring Boot APIs and backend systems from training"
-				  }
+				  },
+                  {
+                    "name": "ADK Rail Trail",
+                    "description": "Flutter + Dart mobile application w/ third party map integration"
+                  }
 				]`),
 
 				Education: datatypes.JSON(`[

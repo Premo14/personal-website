@@ -25,12 +25,6 @@ func SeedTechStack() error {
 					"categories": ["Backend"]
 				  },
 				  {
-					"name": "JavaScript",
-					"link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
-					"icon": "/logos/javascript.svg",
-					"categories": ["Frontend", "Backend"]
-				  },
-				  {
 					"name": "TypeScript",
 					"link": "https://www.typescriptlang.org/",
 					"icon": "/logos/typescript.svg",
@@ -43,20 +37,8 @@ func SeedTechStack() error {
 					"categories": ["Backend"]
 				  },
 				  {
-					"name": "Express",
-					"link": "https://expressjs.com/",
-					"icon": "/logos/express.svg",
-					"categories": ["Backend"]
-				  },
-				  {
 					"name": "React",
 					"link": "https://reactjs.org/",
-					"icon": "/logos/react.svg",
-					"categories": ["Frontend"]
-				  },
-				  {
-					"name": "React Native",
-					"link": "https://reactnative.dev/",
 					"icon": "/logos/react.svg",
 					"categories": ["Frontend"]
 				  },
@@ -66,12 +48,18 @@ func SeedTechStack() error {
 					"icon": "/logos/tailwindcss.svg",
 					"categories": ["Frontend"]
 				  },
-				  {
-					"name": "Vite",
-					"link": "https://vitejs.dev/",
-					"icon": "/logos/vite.svg",
-					"categories": ["Frontend"]
-				  },
+                  {
+                    "name": "Flutter",
+                    "link": "https://flutter.dev/",
+                    "icon": "/logos/flutter.svg",
+                    "categories": ["Mobile"]
+                  },
+                  {
+                    "name": "Dart",
+                    "link": "https://dart.dev/",
+                    "icon": "/logos/dart.svg",
+                    "categories": ["Mobile"]
+                   },
 				  {
 					"name": "Docker",
 					"link": "https://www.docker.com/",
@@ -149,12 +137,6 @@ func SeedTechStack() error {
 					"link": "https://www.mongodb.com/",
 					"icon": "/logos/mongodb.svg",
 					"categories": ["Databases"]
-				  },
-				  {
-					"name": "ESLint",
-					"link": "https://eslint.org/",
-					"icon": "/logos/eslint.svg",
-					"categories": ["Utilities"]
 				  },
 				  {
 					"name": "GitHub",
