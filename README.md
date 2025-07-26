@@ -1,6 +1,6 @@
 # Personal-Website
 
-## Full Tech Stack
+## Tech Stack
 
 ### Frontend
 - [**React**](https://reactjs.org/) (frontend UI framework)
