@@ -23,7 +23,7 @@ func SeedResume() error {
 					"databases": "PostgreSQL, MongoDB, MySQL, MariaDB",
 					"cloud": "AWS EC2, AWS ECR, AWS Route 53, AWS S3, AWS RDS",
 					"devops": "Docker, Terraform. NGINX, GitHub Actions",
-					"utilities": "Postman, Linux, JetBrains, Shell Scripting, GitHub"
+					"utilities": "Postman, Linux, Shell Scripting, GitHub"
 				}`),
 				ProfessionalExperience: datatypes.JSON(`[
 				  {
@@ -85,14 +85,15 @@ func SeedResume() error {
 					]
 				  },
                   {
-                    "title": "CTO & Lead Developer",
+                    "title": "Full Stack Engineer",
                     "company": "Limitless Hoops (Startup)",
                     "location": "Remote",
                     "dateRange": "May 2025 - Present",
                     "bullets": [
-                        "Installed and maintained POS systems, servers, and network equipment",
-                        "Troubleshot PCs, mobile devices, and security hardware onsite",
-                        "Configured Windows Server, macOS, and IP phone systems"
+                       "Designed and developed backend architecture using Go, Fiber, and PostgreSQL with a focus on performance and scalability to serve 2,000+ players and spectators",
+                       "Built modular, production-ready CI/CD pipelines using GitHub Actions, Docker, and Terraform to prepate for future AWS deployment",
+                       "Architected infrastructure and third-party integration plans (Stripe, Twilio, WhatsApp) to support payment procession and automated communications",
+                       "Spearheaded long-term planning for React and React Native apps optimized for low-latency and high-concurrency performance"
                     ]
                   }
 				]`),

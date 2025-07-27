@@ -151,12 +151,6 @@ func SeedTechStack() error {
 					"categories": ["Utilities"]
 				  },
 				  {
-					"name": "JetBrains",
-					"link": "https://www.jetbrains.com/",
-					"icon": "/logos/jetbrains.svg",
-					"categories": ["Utilities"]
-				  },
-				  {
 					"name": "Linux",
 					"link": "https://www.kernel.org/",
 					"icon": "/logos/linux.svg",
