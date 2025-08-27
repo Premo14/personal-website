@@ -8,15 +8,26 @@ export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <nav className="bg-surface text-textPrimary px-6 py-4 shadow-md">
-            <div className="container mx-auto flex justify-between items-center">
-                <Link to="/" className="text-xl font-semibold hover:text-brand">Anthony Premo</Link>
+        <nav className="bg-surface text-textPrimary px-4 sm:px-6 py-3 sm:py-4 shadow-md">
+            <div className="mx-auto w-full max-w-screen-xl flex justify-between items-center">
+                <Link
+                    to="/"
+                    className="text-lg sm:text-xl font-semibold hover:text-brand"
+                >
+                    Anthony Premo
+                </Link>
 
                 {/* Desktop Nav */}
                 <div className="hidden md:flex items-center space-x-4">
-                    <Link to="/" className="text-lg hover:text-brand transition">Home</Link>
-                    <Link to="/resume" className="text-lg hover:text-brand transition">Resume</Link>
-                    <Link to="/projects" className="text-lg hover:text-brand transition">Projects</Link>
+                    <Link to="/" className="text-base sm:text-lg hover:text-brand transition">
+                        Home
+                    </Link>
+                    <Link to="/resume" className="text-base sm:text-lg hover:text-brand transition">
+                        Resume
+                    </Link>
+                    <Link to="/projects" className="text-base sm:text-lg hover:text-brand transition">
+                        Projects
+                    </Link>
                     <button
                         onClick={toggleTheme}
                         className="p-2 rounded-md border border-border hover:text-brand transition"
@@ -38,10 +49,10 @@ export default function Navbar() {
 
             {/* Mobile Menu */}
             {isOpen && (
-                <div className="md:hidden flex flex-col items-start px-6 pt-4 space-y-2">
-                    <Link to="/" className="text-lg hover:text-brand" onClick={() => setIsOpen(false)}>Home</Link>
-                    <Link to="/resume" className="text-lg hover:text-brand" onClick={() => setIsOpen(false)}>Resume</Link>
-                    <Link to="/projects" className="text-lg hover:text-brand" onClick={() => setIsOpen(false)}>Projects</Link>
+                <div className="md:hidden flex flex-col items-start px-4 pt-4 space-y-3">
+                    <Link to="/" className="text-base sm:text-lg hover:text-brand" onClick={() => setIsOpen(false)}>Home</Link>
+                    <Link to="/resume" className="text-base sm:text-lg hover:text-brand" onClick={() => setIsOpen(false)}>Resume</Link>
+                    <Link to="/projects" className="text-base sm:text-lg hover:text-brand" onClick={() => setIsOpen(false)}>Projects</Link>
                     <button
                         onClick={() => {
                             toggleTheme();

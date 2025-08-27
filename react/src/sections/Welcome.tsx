@@ -22,11 +22,17 @@ export default function Welcome() {
     }, []);
 
     return (
-        <section className="relative h-full snap-start overflow-hidden flex items-center justify-center">
+        <section className="snap-start h-full relative z-10 flex items-center justify-center overflow-hidden">
             {/* Background Video */}
             <div className="absolute inset-0 w-full h-full z-0 pointer-events-none">
-                <video className="w-full h-full object-cover" autoPlay muted loop playsInline>
-                    <source src="/videos/welcome-dark.mp4" type="video/mp4" />
+                <video
+                    className="w-full h-full object-cover"
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                >
+                    <source src="/videos/welcome-dark.mp4" type="video/mp4"/>
                 </video>
             </div>
 

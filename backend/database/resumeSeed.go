@@ -17,95 +17,108 @@ func SeedResume() error {
 			log.Println("🌱 Seeding initial Resume...")
 
 			initial := models.Resume{
-				ProfessionalSummary: "Full Stack Software Engineer with hands-on experience across web, mobile, backend, and cloud infrastructure. Passionate about building scalable, secure, and high-performance applications. Adept at adapting quickly in fast-paced environments and eager to contribute to mission-driven teams. Open to relocation and all work formats: remote, hybrid, or in person.",
 				TechnicalSkills: datatypes.JSON(`{
-					"languages": "Go, JavaScript, TypeScript",
-					"frameworks_libraries": "React, React Native, Express, Node.js, Vite",
-					"databases": "PostgreSQL, MongoDB, MySQL, MariaDB",
-					"cloud": "AWS EC2, AWS ECR, AWS Route 53, AWS S3, AWS RDS",
-					"devops": "Docker, Terraform. NGINX, GitHub Actions",
-					"utilities": "Postman, Linux, JetBrains, Shell Scripting, GitHub"
-				}`),
-				ProfessionalExperience: datatypes.JSON(`[
-				  {
-					"title": "Full Stack Engineer",
-					"company": "Immpression LLC",
-					"location": "Remote",
-					"dateRange": "May 2024 - Present",
-					"bullets": [
-					  "Developed cross-platform mobile app with React Native, Node.js, and Express.js",
-					  "Built and maintained backend API with MongoDB integration",
-					  "Created internal admin panel and landing page using React, Vite, and Node.js",
-					  "Led DevOps setup using Docker, GitHub, Linux, and Terraform",
-					  "Integrated cloud services like Cloudinary and Vercel for mock deployment"
-					]
-				  },
-				  {
-					"title": "Software Engineer",
-					"company": "UpNCoding (Contract)",
-					"location": "Remote",
-					"dateRange": "Dec 2023 - Jun 2024",
-					"bullets": [
-					  "Built a tourism app using Laravel, PHP, and MariaDB for the Adirondack region",
-					  "Developed Android/iOS apps using Kotlin and Swift using Android Studio and XCode",
-					  "Created internal admin panel with React and TypeScript",
-					  "Used Docker for containerized development"
-					]
-				  },
-				  {
-					"title": "Associate Java Developer (Pre-training)",
-					"company": "Revature",
-					"location": "Remote",
-					"dateRange": "Dec 2024 - Feb 2025",
-					"bullets": [
-					  "Completed Revature's pre-training program in Java, Spring Boot, Javalin, REST APIs, and SQL",
-					  "Built backend services and APIs using Java frameworks and SQL databases",
-					  "Collaborated in agile project teams simulating real-world development",
-					  "Awaiting placement into full-time client engagement"
-					]
-				  },
-				  {
-					"title": "IT Technician",
-					"company": "Adirondack Techs LLC",
-					"location": "On-site",
-					"dateRange": "Jul 2022 - Sep 2022",
-					"bullets": [
-					  "Installed and maintained POS systems, servers, and network equipment",
-					  "Troubleshot PCs, mobile devices, and security hardware onsite",
-					  "Configured Windows Server, macOS, and IP phone systems"
-					]
-				  }
-				]`),
+  "languages": "Go, TypeScript, Dart",
+  "frameworks_libraries": "React, Flutter, React Native, Node.js",
+  "databases": "PostgreSQL, MongoDB, MySQL, MariaDB",
+  "cloud": "AWS EC2, AWS ECR, AWS Route 53, AWS S3, AWS RDS",
+  "devops": "Docker, Terraform, NGINX, GitHub Actions",
+  "utilities": "Postman, Linux, Shell Scripting, GitHub"
+}`),
 
-				Projects: datatypes.JSON(`[
-				  {
-					"name": "Immpression Art App",
-					"description": "React Native, MongoDB, Express, with admin panel and landing site"
-				  },
-				  {
-					"name": "UpNCoding Tourism App",
-					"description": "Laravel backend, MariaDB, React-based admin panel for Android/iOS"
-				  },
-				  {
-					"name": "Personal Site",
-					"description": "Built with Golang (GORM, Fiber), React, Terraform, and AWS"
-				  },
-				  {
-					"name": "Revature Projects",
-					"description": "Java + Spring Boot APIs and backend systems from training"
-				  }
-				]`),
+ProfessionalExperience: datatypes.JSON(`[
+  {
+    "title": "Full Stack Engineer",
+    "company": "Limitless Hoops (Startup)",
+    "location": "Remote",
+    "dateRange": "May 2025 - Present",
+    "bullets": [
+      "Sole engineer responsible for backend and infrastructure of an early-stage sports event platform",
+      "Architected Go + Fiber microservices with PostgreSQL to support scalable user growth",
+      "Implemented CI/CD pipelines with Docker, Terraform, and GitHub Actions preparing for AWS deployment",
+      "Integrated Stripe and Twilio APIs for payment processing and automated communications"
+    ]
+  },
+  {
+    "title": "Mobile Developer",
+    "company": "UpNCoding (Contract)",
+    "location": "Remote",
+    "dateRange": "June 2025 - Present",
+    "bullets": [
+      "Built a tourism-focused mobile app with Flutter and Dart for the ADK Rail Trail",
+      "Integrated third-party mapping APIs to deliver location-based features"
+    ]
+  },
+  {
+    "title": "Software Engineer",
+    "company": "UpNCoding (Contract)",
+    "location": "Remote",
+    "dateRange": "Dec 2023 - Jun 2024",
+    "bullets": [
+      "Collaborated as one of three core developers at a startup, delivering web and mobile applications",
+      "Built a Laravel + MariaDB tourism platform with React-based admin panel",
+      "Developed Android/iOS clients using Kotlin and Swift in Android Studio/Xcode",
+      "Containerized development with Docker for consistent team workflows"
+    ]
+  },
+  {
+    "title": "Full Stack Engineer",
+    "company": "Immpression LLC (Volunteer Project)",
+    "location": "Remote",
+    "dateRange": "May 2024 - May 2025",
+    "bullets": [
+      "Served as lead engineer and DevOps mentor for a volunteer team building an art marketplace app",
+      "Developed cross-platform mobile client in React Native with Node.js/Express backend",
+      "Implemented MongoDB data layer and created admin tools with React + Vite",
+      "Introduced Docker and Terraform workflows, mentoring teammates on modern DevOps practices"
+    ]
+  },
+  {
+    "title": "IT Technician",
+    "company": "Adirondack Techs LLC",
+    "location": "On-site",
+    "dateRange": "Jul 2022 - Sep 2022",
+    "bullets": [
+      "Installed and maintained POS systems, servers, and networking equipment for small businesses",
+      "Troubleshot PCs, mobile devices, and security hardware onsite",
+      "Configured Windows Server, macOS, and VoIP phone systems"
+    ]
+  }
+]`),
 
-				Education: datatypes.JSON(`[
-				  {
-					"institution": "Southern New Hampshire University",
-					"degree": "B.S. in Software Engineering"
-				  },
-				  {
-					"institution": "UpNCoding",
-					"degree": "Golang Bootcamp Certification"
-				  }
-				]`),
+Projects: datatypes.JSON(`[
+  {
+    "name": "Limitless Hoops",
+    "description": "Go + Fiber backend with PostgreSQL, Stripe/Twilio integration, AWS-ready CI/CD"
+  },
+  {
+    "name": "ADK Rail Trail",
+    "description": "Flutter + Dart tourism app with interactive third-party map integration"
+  },
+  {
+    "name": "Immpression Art App",
+    "description": "Cross-platform React Native marketplace with Node.js/MongoDB backend and admin tools"
+  },
+  {
+    "name": "UpNCoding Tourism App",
+    "description": "Laravel + MariaDB web platform with React admin panel and native mobile clients"
+  },
+  {
+    "name": "Personal Site",
+    "description": "Portfolio site built with Golang (GORM, Fiber), React frontend, Terraform and AWS"
+  }
+]`),
+
+Education: datatypes.JSON(`[
+  {
+    "institution": "Southern New Hampshire University",
+    "degree": "B.S. in Computer Science (Software Engineering Concentration)"
+  },
+  {
+    "institution": "UpNCoding",
+    "degree": "Golang Bootcamp Certification"
+  }
+]`),
 			}
 
 			if err := DB.Create(&initial).Error; err != nil {

@@ -7,15 +7,31 @@ import {API_URL} from "@/API_URL.ts";
 
 export default function Resume() {
     const [resumeData, setResumeData] = useState<ResumeData | null>(null);
-    const [adminOpen, setAdminOpen] = useState(false); // Control opening ResumeForm modal
+    const [adminOpen, setAdminOpen] = useState(false);
 
     useEffect(() => {
         const fetchResume = async () => {
             try {
-                console.log("Trying to fetch from API_URL...");
                 const response = await fetch(`${API_URL}/resume`);
                 const data = await response.json();
+
+                const parseDate = (range: string) => {
+                    const [startStr, endStr] = range.split(' - ');
+                    const parse = (str: string) =>
+                        str === 'Present' ? new Date() : new Date(Date.parse(`1 ${str}`));
+                    return { start: parse(startStr), end: parse(endStr) };
+                };
+
+                data.professionalExperience.sort((a: any, b: any) => {
+                    const aDates = parseDate(a.dateRange);
+                    const bDates = parseDate(b.dateRange);
+
+                    return bDates.end.getTime() - aDates.end.getTime(); // descending by END date
+                });
+
+
                 setResumeData(data);
+
             } catch (error) {
                 console.error('Failed to fetch resume:', error);
             }
@@ -25,14 +41,12 @@ export default function Resume() {
     }, []);
 
     return (
-        <div className="h-full overflow-y-auto snap-y snap-mandatory scroll-smooth scrollbar scrollbar-thin scrollbar-thumb-white scrollbar-track-[#121212]">
+        <div className="h-full overflow-y-auto scroll-smooth scrollbar-thin scrollbar-thumb-white scrollbar-track-[#121212]">
             <section className="container mx-auto px-4 py-10 min-h-screen flex flex-col">
 
                 {/* Buttons */}
                 <div className="flex justify-between items-center mb-8">
-
                     <div className="flex space-x-4">
-                        {/* Print to PDF Button */}
                         {resumeData && (
                             <PDFDownloadLink
                                 document={<ResumePDF data={resumeData} />}
@@ -43,7 +57,6 @@ export default function Resume() {
                             </PDFDownloadLink>
                         )}
 
-                        {/* Admin Button */}
                         <button
                             onClick={() => setAdminOpen(true)}
                             className="px-3 py-1 text-sm border border-accent text-accent rounded-md hover:bg-accent hover:text-black transition invert dark:invert-0"
@@ -53,22 +66,19 @@ export default function Resume() {
                     </div>
                 </div>
 
-                {/* Resume content */}
+                {/* Resume Content */}
                 {resumeData ? (
-                    <div className="mt-8 space-y-8">
-                        {/* Professional Summary */}
-                        <section>
-                            <h2 className="text-2xl font-bold mb-2 text-brand uppercase">Professional Summary</h2>
-                            <p className="text-textPrimary">{resumeData.professionalSummary}</p>
-                        </section>
+                    <div className="mt-8 space-y-8 text-sm sm:text-base">
 
                         {/* Technical Skills */}
                         <section>
-                            <h2 className="text-2xl font-bold mb-2 text-brand uppercase">Technical Skills</h2>
+                            <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-2 text-brand uppercase">
+                                Technical Skills
+                            </h2>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 {Object.entries(resumeData.technicalSkills).map(([category, skills]) => (
                                     <div key={category}>
-                                        <h3 className="font-semibold text-brand">
+                                        <h3 className="font-semibold text-brand text-base sm:text-lg">
                                             {category.charAt(0).toUpperCase() + category.slice(1)}
                                         </h3>
                                         <p>{skills}</p>
@@ -79,13 +89,15 @@ export default function Resume() {
 
                         {/* Professional Experience */}
                         <section>
-                            <h2 className="text-2xl font-bold mb-2 text-brand uppercase">Professional Experience</h2>
+                            <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-2 text-brand uppercase">
+                                Professional Experience
+                            </h2>
                             {resumeData.professionalExperience.map((exp, idx) => (
                                 <div key={idx} className="mb-6">
-                                    <h3 className="font-semibold text-brand">
+                                    <h3 className="font-semibold text-brand text-base sm:text-lg">
                                         {exp.title} @ {exp.company} ({exp.location})
                                     </h3>
-                                    <p className="italic text-sm">{exp.dateRange}</p>
+                                    <p className="italic text-xs sm:text-sm">{exp.dateRange}</p>
                                     <ul className="list-disc list-inside mt-2 space-y-1">
                                         {exp.bullets.map((bullet, bulletIdx) => (
                                             <li key={bulletIdx}>{bullet}</li>
@@ -97,10 +109,14 @@ export default function Resume() {
 
                         {/* Projects */}
                         <section>
-                            <h2 className="text-2xl font-bold mb-2 text-brand uppercase">Projects</h2>
+                            <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-2 text-brand uppercase">
+                                Projects
+                            </h2>
                             {resumeData.projects.map((proj, idx) => (
                                 <div key={idx} className="mb-4">
-                                    <h3 className="font-semibold text-brand">{proj.name}</h3>
+                                    <h3 className="font-semibold text-brand text-base sm:text-lg">
+                                        {proj.name}
+                                    </h3>
                                     <p>{proj.description}</p>
                                 </div>
                             ))}
@@ -108,20 +124,25 @@ export default function Resume() {
 
                         {/* Education */}
                         <section>
-                            <h2 className="text-2xl font-bold mb-2 text-brand uppercase">Education</h2>
+                            <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-2 text-brand uppercase">
+                                Education
+                            </h2>
                             {resumeData.education.map((edu, idx) => (
                                 <div key={idx} className="mb-4">
-                                    <h3 className="font-semibold text-brand">{edu.institution}</h3>
+                                    <h3 className="font-semibold text-brand text-base sm:text-lg">
+                                        {edu.institution}
+                                    </h3>
                                     <p>{edu.degree}</p>
                                 </div>
                             ))}
                         </section>
                     </div>
                 ) : (
-                    <div className="text-center text-textMuted italic mt-10">Loading resume...</div>
+                    <div className="text-center text-textMuted italic mt-10 text-sm sm:text-base">
+                        Loading resume...
+                    </div>
                 )}
 
-                {/* Admin Modal */}
                 <ResumeForm isOpen={adminOpen} onClose={() => setAdminOpen(false)} />
             </section>
         </div>

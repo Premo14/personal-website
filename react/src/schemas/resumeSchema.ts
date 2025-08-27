@@ -28,7 +28,6 @@ export const educationSchema = z.object({
 });
 
 export const resumeSchema = z.object({
-    professionalSummary: z.string().min(10, "Professional summary is required"),
     technicalSkills: technicalSkillsSchema.optional(),
     professionalExperience: z.array(experienceSchema).optional(),
     projects: z.array(projectSchema).optional(),

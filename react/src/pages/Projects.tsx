@@ -21,9 +21,14 @@ export default function Projects() {
     // }, []);
 
     return (
-        <section className="relative h-full snap-start flex flex-col justify-center items-center px-4 py-10 text-center space-y-6 overflow-hidden">
-            <h1 className="text-3xl">The Projects Page will host live projects (eventually).</h1>
-            <p className="text-lg">To see projects visit my Resume and GitHub for the time being.</p>
+        <section
+            className="min-h-[60vh] flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8 py-16 text-center space-y-4 sm:space-y-6">
+            <h1 className="text-2xl sm:text-3xl font-semibold">
+                The Projects Page will host live projects (eventually).
+            </h1>
+            <p className="text-base sm:text-lg">
+                To see projects visit my Resume and GitHub for the time being.
+            </p>
 
             {/*<div className="absolute top-4 left-4 z-20">*/}
             {/*    <button*/}
@@ -36,7 +41,7 @@ export default function Projects() {
 
             {/*<h2 className="text-4xl md:text-5xl font-bold mb-8 text-white">Projects</h2>*/}
 
-            {/*<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ">*/}
+            {/*<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">*/}
             {/*    {projects.map((project, idx) => (*/}
             {/*        <div key={idx} className="p-4 bg-background rounded-lg shadow-lg text-left hover:border-brand border-2 border-solid transition-all duration-300 ease-in-out">*/}
             {/*            <h3 className="text-2xl font-bold text-brand mb-2">{project.title}</h3>*/}

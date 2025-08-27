@@ -7,7 +7,6 @@ import (
 
 type Resume struct {
 	gorm.Model
-	ProfessionalSummary    string         `gorm:"type:text" json:"professionalSummary"`
 	TechnicalSkills        datatypes.JSON `gorm:"type:jsonb" json:"technicalSkills"`
 	ProfessionalExperience datatypes.JSON `gorm:"type:jsonb" json:"professionalExperience"`
 	Projects               datatypes.JSON `gorm:"type:jsonb" json:"projects"`

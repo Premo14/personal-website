@@ -1,5 +1,4 @@
 interface ResumeData {
-    professionalSummary: string;
     technicalSkills: {
         languages: string;
         frameworksAndLibraries: string;

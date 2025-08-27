@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Modal } from '@/components/ui/Modal';
 import ResumeData from '@/models/ResumeData';
 import { ResumeAdminPanel } from './ResumeAdminPanel';
-import ProfessionalSummaryForm from './ProfessionalSummaryForm';
 import TechnicalSkillsForm from './TechnicalSkillsForm';
 import ExperienceListForm from './ExperienceListForm';
 import ProjectListForm from './ProjectListForm';
@@ -73,7 +72,6 @@ export default function ResumeForm({ isOpen, onClose }: ResumeFormProps) {
                 <div className="overflow-y-auto max-h-[70vh]">
                     <h2 className="text-2xl font-bold mb-4">Edit Resume</h2>
 
-                    <ProfessionalSummaryForm resumeData={resumeData} setResumeData={setResumeData} />
                     <TechnicalSkillsForm resumeData={resumeData} setResumeData={setResumeData} />
                     <ExperienceListForm resumeData={resumeData} setResumeData={setResumeData} />
                     <ProjectListForm resumeData={resumeData} setResumeData={setResumeData} />
