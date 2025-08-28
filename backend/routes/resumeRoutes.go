@@ -5,8 +5,8 @@ import (
 	"github.com/premo14/personal-website/backend/controllers"
 )
 
-// ResumeRoutes routes for resume
 func ResumeRoutes(router fiber.Router) {
 	router.Get("/resume", controllers.GetResume)
 	router.Put("/resume", controllers.UpdateResume)
+	router.Get("/resume/projects", controllers.GetResumeProjects)
 }

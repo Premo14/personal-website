@@ -56,6 +56,7 @@ export default function TechStack() {
             <div className="absolute inset-0 w-full h-full z-0 pointer-events-none">
                 <video
                     className="w-full h-full object-cover"
+                    preload="metadata"
                     autoPlay
                     muted
                     loop

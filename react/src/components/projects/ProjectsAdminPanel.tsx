@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 const UPLOAD_PASSWORD = import.meta.env.VITE_UPLOAD_PASSCODE;
 
@@ -8,13 +8,13 @@ interface ProjectsAdminPanelProps {
 }
 
 export function ProjectsAdminPanel({ onAuthenticated, onError }: ProjectsAdminPanelProps) {
-    const [inputPassword, setInputPassword] = useState('');
+    const [inputPassword, setInputPassword] = useState("");
 
     const handlePasswordSubmit = () => {
         if (inputPassword === UPLOAD_PASSWORD) {
             onAuthenticated();
         } else {
-            onError('Incorrect password.');
+            onError("Incorrect password.");
         }
     };
 

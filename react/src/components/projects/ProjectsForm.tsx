@@ -1,52 +1,95 @@
-import { useState, useEffect } from 'react';
-import { Modal } from '@/components/ui/Modal';
-import { ProjectsAdminPanel } from './ProjectsAdminPanel';
-import { portfolioProjectSchema, PortfolioProjectFormValues } from '@/schemas/projectSchema';
-import {API_URL} from "@/API_URL.ts";
+import { useEffect, useState } from "react";
+import { Modal } from "@/components/ui/Modal";
+import { ProjectsAdminPanel } from "./ProjectsAdminPanel";
+import { portfolioProjectSchema, PortfolioProjectFormValues } from "@/schemas/projectSchema";
+import { API_URL } from "@/API_URL";
+import { normalizeProject } from "@/models/PortfolioProject";
 
 interface ProjectsFormProps {
     isOpen: boolean;
     onClose: () => void;
+    onSaved?: (updated: Array<{
+        id?: number;
+        title: string;
+        description: string;
+        tools: string[];
+        sourceLink?: string;
+        liveLink?: string;
+        publishedAt?: string | null;
+        featured?: boolean;
+        thumbnail?: string;
+    }>) => void;
 }
 
-export default function ProjectsForm({ isOpen, onClose }: ProjectsFormProps) {
+export default function ProjectsForm({ isOpen, onClose, onSaved }: ProjectsFormProps) {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [projects, setProjects] = useState<PortfolioProjectFormValues[]>([]);
+    const [saving, setSaving] = useState(false);
 
     useEffect(() => {
-        if (isAuthenticated) {
-            fetchProjects();
-        }
+        if (isAuthenticated) void fetchProjects();
     }, [isAuthenticated]);
 
     const fetchProjects = async () => {
         try {
-            const response = await fetch(`${API_URL}/projects`);
-            const data = await response.json();
-            setProjects(data);
+            const response = await fetch(`${API_URL}/projects?ts=${Date.now()}`, { cache: "no-store" });
+            const raw = await response.json();
+            const normalized = Array.isArray(raw) ? raw.map(normalizeProject) : [];
+            const mapped: PortfolioProjectFormValues[] = normalized.map((p) => ({
+                title: p.title || "",
+                tools: Array.isArray(p.tools) ? p.tools : [],
+                description: p.description || "",
+                // ensure strings (never undefined)
+                sourceLink: typeof p.sourceLink === "string" ? p.sourceLink : "",
+                liveLink: typeof p.liveLink === "string" ? p.liveLink : "",
+            }));
+            setProjects(mapped);
         } catch (err) {
-            console.error('Error fetching projects:', err);
+            console.error("Error fetching projects:", err);
         }
     };
 
     const handleSave = async () => {
         try {
-            projects.forEach((project) => portfolioProjectSchema.parse(project));
+            setSaving(true);
 
-            const response = await fetch(`${API_URL}/projects`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(projects),
+            // sanitize & validate, **always** send strings for links
+            const payload = projects.map((p) => {
+                const sanitized = {
+                    title: (p.title ?? "").trim(),
+                    tools: (p.tools ?? []).map((t) => t.trim()).filter(Boolean),
+                    description: (p.description ?? "").trim(),
+                    sourceLink:
+                        p.sourceLink.trim(),
+                    liveLink:
+                        p.liveLink.trim(),
+                };
+
+                // Zod now allows "" or a valid URL
+                portfolioProjectSchema.parse(sanitized);
+                return sanitized;
             });
 
-            if (!response.ok) throw new Error('Failed to update projects');
+            const response = await fetch(`${API_URL}/projects`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload),
+            });
+            if (!response.ok) throw new Error("Failed to update projects");
 
-            alert('Projects updated successfully!');
+            // refetch and bubble up to page
+            const refreshedRaw = await (await fetch(`${API_URL}/projects?ts=${Date.now()}`, { cache: "no-store" })).json();
+            const normalized = Array.isArray(refreshedRaw) ? refreshedRaw.map(normalizeProject) : [];
+            onSaved?.(normalized);
+
+            alert("Projects updated successfully!");
             onClose();
             setIsAuthenticated(false);
         } catch (err) {
-            console.error('Save failed:', err);
-            alert('Save failed');
+            console.error("Save failed:", err);
+            alert("Save failed");
+        } finally {
+            setSaving(false);
         }
     };
 
@@ -57,14 +100,17 @@ export default function ProjectsForm({ isOpen, onClose }: ProjectsFormProps) {
     };
 
     const addProject = () => {
-        setProjects([...projects, { title: '', tools: [''], description: '', sourceLink: '', liveLink: '' }]);
+        setProjects((prev) => [
+            ...prev,
+            { title: "", tools: [], description: "", sourceLink: "", liveLink: "" },
+        ]);
     };
 
     const deleteProject = (index: number) => {
-        const updated = [...projects];
-        updated.splice(index, 1);
-        setProjects(updated);
+        setProjects((prev) => prev.filter((_, i) => i !== index));
     };
+
+    if (!isOpen) return null;
 
     return (
         <Modal isOpen={isOpen} onClose={handleCancel}>
@@ -79,6 +125,7 @@ export default function ProjectsForm({ isOpen, onClose }: ProjectsFormProps) {
 
                     {projects.map((project, idx) => (
                         <div key={idx} className="text-black mb-6 p-4 rounded-lg bg-background shadow">
+                            <label className="block text-sm font-medium mb-1">Title</label>
                             <input
                                 type="text"
                                 value={project.title}
@@ -87,20 +134,24 @@ export default function ProjectsForm({ isOpen, onClose }: ProjectsFormProps) {
                                     updated[idx].title = e.target.value;
                                     setProjects(updated);
                                 }}
-                                className="w-full mb-2 p-2 border rounded"
+                                className="w-full mb-3 p-2 border rounded"
                                 placeholder="Project Title"
                             />
+
+                            <label className="block text-sm font-medium mb-1">Tools</label>
                             <input
                                 type="text"
-                                value={(project.tools || []).join(', ')}
+                                value={(project.tools || []).join(", ")}
                                 onChange={(e) => {
                                     const updated = [...projects];
-                                    updated[idx].tools = e.target.value.split(',').map((tool) => tool.trim());
+                                    updated[idx].tools = e.target.value.split(",").map((t) => t.trim()).filter(Boolean);
                                     setProjects(updated);
                                 }}
-                                className="w-full mb-2 p-2 border rounded"
+                                className="w-full mb-3 p-2 border rounded"
                                 placeholder="Tools (comma separated)"
                             />
+
+                            <label className="block text-sm font-medium mb-1">Description</label>
                             <textarea
                                 value={project.description}
                                 onChange={(e) => {
@@ -108,36 +159,45 @@ export default function ProjectsForm({ isOpen, onClose }: ProjectsFormProps) {
                                     updated[idx].description = e.target.value;
                                     setProjects(updated);
                                 }}
-                                className="w-full mb-2 p-2 border rounded"
+                                className="w-full mb-3 p-2 border rounded"
                                 placeholder="Project Description"
                             />
-                            <input
-                                type="text"
-                                value={project.sourceLink ?? ''}
-                                onChange={(e) => {
-                                    const updated = [...projects];
-                                    updated[idx].sourceLink = e.target.value;
-                                    setProjects(updated);
-                                }}
-                                className="w-full mb-2 p-2 border rounded"
-                                placeholder="Source Code Link"
-                            />
-                            <input
-                                type="text"
-                                value={project.liveLink ?? ''}
-                                onChange={(e) => {
-                                    const updated = [...projects];
-                                    updated[idx].liveLink = e.target.value;
-                                    setProjects(updated);
-                                }}
-                                className="w-full mb-2 p-2 border rounded"
-                                placeholder="Live Project Link"
-                            />
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-sm font-medium mb-1">Source Link</label>
+                                    <input
+                                        type="text"
+                                        value={project.sourceLink ?? ""}
+                                        onChange={(e) => {
+                                            const updated = [...projects];
+                                            updated[idx].sourceLink = e.target.value;
+                                            setProjects(updated);
+                                        }}
+                                        className="w-full p-2 border rounded"
+                                        placeholder="https://github.com/…"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium mb-1">Live Link</label>
+                                    <input
+                                        type="text"
+                                        value={project.liveLink ?? ""}
+                                        onChange={(e) => {
+                                            const updated = [...projects];
+                                            updated[idx].liveLink = e.target.value;
+                                            setProjects(updated);
+                                        }}
+                                        className="w-full p-2 border rounded"
+                                        placeholder="https://example.com"
+                                    />
+                                </div>
+                            </div>
 
                             <button
                                 type="button"
                                 onClick={() => deleteProject(idx)}
-                                className="mt-2 block text-xs text-red-500 underline hover:text-red-700"
+                                className="mt-3 block text-xs text-red-500 underline hover:text-red-700"
                             >
                                 🗑️ Delete Project
                             </button>
@@ -147,7 +207,7 @@ export default function ProjectsForm({ isOpen, onClose }: ProjectsFormProps) {
                     <button
                         type="button"
                         onClick={addProject}
-                        className="mt-4 px-3 py-1 text-sm bg-accent text-black rounded hover:opacity-90"
+                        className="mt-2 px-3 py-1 text-sm bg-accent text-black rounded hover:opacity-90"
                     >
                         ➕ Add Project
                     </button>
@@ -157,6 +217,7 @@ export default function ProjectsForm({ isOpen, onClose }: ProjectsFormProps) {
                             type="button"
                             onClick={handleCancel}
                             className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 font-bold"
+                            disabled={saving}
                         >
                             Cancel
                         </button>
@@ -164,8 +225,9 @@ export default function ProjectsForm({ isOpen, onClose }: ProjectsFormProps) {
                             type="button"
                             onClick={handleSave}
                             className="px-4 py-2 bg-brand text-white rounded hover:bg-brand-dark font-bold"
+                            disabled={saving}
                         >
-                            Save Projects
+                            {saving ? "Saving…" : "Save Projects"}
                         </button>
                     </div>
                 </div>

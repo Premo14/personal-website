@@ -14,7 +14,7 @@ func SeedWelcomeMessage() error {
 
 	if result.Error != nil {
 		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
-			log.Println("🌱 Seeding initial Welcome Message...")
+			log.Println("Seeding initial Welcome Message...")
 
 			initial := models.WelcomeMessage{
 				Message: "I’m a software craftsman specializing in full stack systems—bringing clarity to code, structure to architecture, and stability from development to deployment.",
@@ -24,7 +24,7 @@ func SeedWelcomeMessage() error {
 				return err
 			}
 
-			log.Println("✅ Welcome Message seeded successfully!")
+			log.Println("Welcome Message seeded successfully!")
 			return nil
 		}
 		return result.Error

@@ -9,6 +9,6 @@ func TechStackRoutes(router fiber.Router) {
 	router.Get("/tech-stack", controllers.GetTechStack)
 	router.Post("/tech-stack", controllers.CreateTool)
 	router.Put("/tech-stack", controllers.UpdateTechStack)
-	router.Delete("/tech-stack", controllers.DeleteTool)
+	router.Delete("/tech-stack/:name", controllers.DeleteTool)
 	router.Post("/tech-stack/bulk", controllers.BulkCreateTools)
 }

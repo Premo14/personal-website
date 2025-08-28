@@ -27,6 +27,7 @@ export default function Welcome() {
             <div className="absolute inset-0 w-full h-full z-0 pointer-events-none">
                 <video
                     className="w-full h-full object-cover"
+                    preload="metadata"
                     autoPlay
                     muted
                     loop

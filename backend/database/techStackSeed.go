@@ -19,7 +19,7 @@ func SeedTechStack() error {
 			initial := models.TechStack{
 				Tools: datatypes.JSON(`[
 				  {
-					"name": "Go",
+					"name": "Go (Golang)",
 					"link": "https://go.dev/",
 					"icon": "/logos/go.svg",
 					"categories": ["Backend"]
@@ -79,12 +79,6 @@ func SeedTechStack() error {
 					"categories": ["DevOps", "Cloud"]
 				  },
 				  {
-					"name": "NGINX",
-					"link": "https://nginx.org/",
-					"icon": "/logos/nginx.svg",
-					"categories": ["DevOps"]
-				  },
-				  {
 					"name": "AWS EC2",
 					"link": "https://aws.amazon.com/ec2/",
 					"icon": "/logos/amazonec2.svg",
@@ -115,21 +109,9 @@ func SeedTechStack() error {
 					"categories": ["Cloud", "Databases"]
 				  },
 				  {
-					"name": "MySQL",
-					"link": "https://www.mysql.com/",
-					"icon": "/logos/mysql.svg",
-					"categories": ["Databases"]
-				  },
-				  {
 					"name": "PostgreSQL",
 					"link": "https://www.postgresql.org/",
 					"icon": "/logos/postgresql.svg",
-					"categories": ["Databases"]
-				  },
-				  {
-					"name": "MariaDB",
-					"link": "https://mariadb.org/",
-					"icon": "/logos/mariadb.svg",
 					"categories": ["Databases"]
 				  },
 				  {
@@ -139,15 +121,9 @@ func SeedTechStack() error {
 					"categories": ["Databases"]
 				  },
 				  {
-					"name": "GitHub",
+					"name": "Git",
 					"link": "https://github.com/",
 					"icon": "/logos/github.svg",
-					"categories": ["Utilities"]
-				  },
-				  {
-					"name": "Shell Scripting",
-					"link": "https://en.wikipedia.org/wiki/Shell_script",
-					"icon": "/logos/gnubash.svg",
 					"categories": ["Utilities"]
 				  },
 				  {
@@ -162,18 +138,18 @@ func SeedTechStack() error {
 					"icon": "/logos/postman.svg",
 					"categories": ["Utilities"]
 				  }
-				]
-				`)}
+				]`),
+			}
 
 			if err := DB.Create(&initial).Error; err != nil {
 				return err
 			}
 
-			log.Println("✅ Tech Stack seeded successfully!")
+			log.Println("Tech Stack seeded successfully!")
 			return nil
 		}
 		return result.Error
 	}
-	log.Println("⚡ Resume already exists, skipping seeding.")
+	log.Println("⚡ Tech Stack already exists, skipping seeding.")
 	return nil
 }

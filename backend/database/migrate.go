@@ -7,7 +7,7 @@ import (
 )
 
 func MigrateDB() {
-	log.Println("🚀 Starting database migrations...")
+	log.Println("Starting database migrations...")
 
 	modelsToMigrate := []interface{}{
 		&models.Resume{},
@@ -17,8 +17,8 @@ func MigrateDB() {
 	}
 
 	if err := DB.AutoMigrate(modelsToMigrate...); err != nil {
-		log.Fatalf("❌ Failed to migrate database models: %v", err)
+		log.Fatalf("Failed to migrate database models: %v", err)
 	}
 
-	log.Println("✅ Database models migrated successfully!")
+	log.Println("Database models migrated successfully!")
 }

@@ -7,32 +7,25 @@ interface TechnicalSkillsFormProps {
 }
 
 export default function TechnicalSkillsForm({ resumeData, setResumeData }: TechnicalSkillsFormProps) {
-    const handleSkillChange = (category: string, value: string) => {
-        setResumeData((prev) =>
-            prev ? {
-                ...prev,
-                technicalSkills: {
-                    ...prev.technicalSkills,
-                    [category]: value,
-                },
-            } : prev
-        );
+    const value = resumeData.technicalSkills.join(', ');
+
+    const handleChange = (text: string) => {
+        const skills = text
+            .split(',')
+            .map(s => s.trim())
+            .filter(Boolean);
+        setResumeData(prev => (prev ? { ...prev, technicalSkills: skills } : prev));
     };
 
     return (
         <div className="mb-6">
             <h3 className="text-lg font-semibold mb-2">Technical Skills</h3>
-            {Object.entries(resumeData.technicalSkills).map(([category, skills]) => (
-                <div key={category} className="mb-2">
-                    <label className="block font-semibold capitalize">{category.replace(/([A-Z])/g, ' $1')}</label>
-                    <input
-                        type="text"
-                        value={skills}
-                        onChange={(e) => handleSkillChange(category, e.target.value)}
-                        className="w-full p-2 rounded bg-background border border-border"
-                    />
-                </div>
-            ))}
+            <textarea
+                value={value}
+                onChange={(e) => handleChange(e.target.value)}
+                placeholder="Comma-separated skills (e.g., Go, TypeScript, React, Docker)"
+                className="w-full h-24 p-2 rounded bg-background border border-border"
+            />
         </div>
     );
 }

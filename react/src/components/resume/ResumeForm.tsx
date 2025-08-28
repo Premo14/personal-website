@@ -1,47 +1,59 @@
-import { useState } from 'react';
-import { Modal } from '@/components/ui/Modal';
-import ResumeData from '@/models/ResumeData';
-import { ResumeAdminPanel } from './ResumeAdminPanel';
-import TechnicalSkillsForm from './TechnicalSkillsForm';
-import ExperienceListForm from './ExperienceListForm';
-import ProjectListForm from './ProjectListForm';
-import EducationListForm from './EducationListForm';
-import {API_URL} from "@/API_URL.ts";
+import * as React from "react";
+import { useState } from "react";
+import { Modal } from "@/components/ui/Modal";
+import ResumeData from "@/models/ResumeData";
+import { ResumeAdminPanel } from "./ResumeAdminPanel";
+import TechnicalSkillsForm from "./TechnicalSkillsForm";
+import ExperienceListForm from "./ExperienceListForm";
+import ProjectListForm from "./ProjectListForm";
+import EducationListForm from "./EducationListForm";
+import { API_URL } from "@/API_URL";
 
-interface ResumeFormProps {
+export interface ResumeFormProps {
     isOpen: boolean;
     onClose: () => void;
+    onSaved?: (updated: ResumeData) => void;
 }
 
-export default function ResumeForm({ isOpen, onClose }: ResumeFormProps) {
+const ResumeForm: React.FC<ResumeFormProps> = ({ isOpen, onClose, onSaved }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [resumeData, setResumeData] = useState<ResumeData | null>(null);
     const [error, setError] = useState<string | null>(null);
 
     const fetchResume = async () => {
         try {
-            const response = await fetch(`${API_URL}/resume`);
+            const response = await fetch(`${API_URL}/resume?ts=${Date.now()}`, {
+                cache: "no-store",
+            });
             const data = await response.json();
             setResumeData(data);
         } catch (err) {
-            console.error('Error fetching resume:', err);
+            console.error("Error fetching resume:", err);
         }
     };
 
     const handleSave = async () => {
         try {
             const response = await fetch(`${API_URL}/resume`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(resumeData),
             });
-            if (!response.ok) throw new Error('Failed to update resume');
-            alert('Resume updated successfully!');
-            onClose(); // Close after save
+            if (!response.ok) throw new Error("Failed to update resume");
+
+            // Re-fetch a fresh copy and bubble up to the page
+            const refreshed = await (
+                await fetch(`${API_URL}/resume?ts=${Date.now()}`, { cache: "no-store" })
+            ).json();
+
+            onSaved?.(refreshed);
+
+            alert("Resume updated successfully!");
+            onClose();
             setIsAuthenticated(false);
         } catch (err) {
-            console.error('Save failed:', err);
-            alert('Save failed');
+            console.error("Save failed:", err);
+            alert("Save failed");
         }
     };
 
@@ -55,11 +67,7 @@ export default function ResumeForm({ isOpen, onClose }: ResumeFormProps) {
         <Modal isOpen={isOpen} onClose={handleCancel}>
             {!isAuthenticated ? (
                 <>
-                    {error && (
-                        <div className="text-red-500 mb-4">
-                            {error}
-                        </div>
-                    )}
+                    {error && <div className="text-red-500 mb-4">{error}</div>}
                     <ResumeAdminPanel
                         onAuthenticated={() => {
                             setIsAuthenticated(true);
@@ -77,7 +85,6 @@ export default function ResumeForm({ isOpen, onClose }: ResumeFormProps) {
                     <ProjectListForm resumeData={resumeData} setResumeData={setResumeData} />
                     <EducationListForm resumeData={resumeData} setResumeData={setResumeData} />
 
-                    {/* Cancel and Save Buttons */}
                     <div className="flex justify-between mt-6">
                         <button
                             type="button"
@@ -100,4 +107,6 @@ export default function ResumeForm({ isOpen, onClose }: ResumeFormProps) {
             )}
         </Modal>
     );
-}
+};
+
+export default ResumeForm;

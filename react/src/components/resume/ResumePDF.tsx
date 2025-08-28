@@ -1,5 +1,5 @@
-import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
-import ResumeData from '../../models/ResumeData';
+import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
+import ResumeData from "../../models/ResumeData";
 
 interface ResumePDFProps {
     data: ResumeData;
@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     page: {
         padding: 30,
         fontSize: 11,
-        fontFamily: 'Helvetica',
+        fontFamily: "Helvetica",
         lineHeight: 1.5,
     },
     section: {
@@ -17,56 +17,70 @@ const styles = StyleSheet.create({
     },
     header: {
         fontSize: 18,
-        fontWeight: 'bold',
+        fontWeight: "bold",
         marginBottom: 10,
     },
     subheader: {
         fontSize: 14,
-        fontWeight: 'bold',
+        fontWeight: "bold",
         marginBottom: 6,
         marginTop: 10,
-    },
-    listItem: {
-        marginBottom: 4,
     },
     bullet: {
         marginLeft: 10,
     },
 });
 
+function renderSkillsLine(ts: any): string {
+    if (Array.isArray(ts)) {
+        return ts.join(", ");
+    }
+    if (ts && typeof ts === "object") {
+        try {
+            return Object.entries(ts)
+                .map(([k, v]) => `${k}: ${String(v)}`)
+                .join(" | ");
+        } catch {
+            return "";
+        }
+    }
+    return "";
+}
+
 export function ResumePDF({ data }: ResumePDFProps) {
     return (
         <Document>
             <Page size="A4" style={styles.page}>
-                {/* Contact */}
                 <View style={styles.section}>
-                    <Text style={styles.header}>{'Anthony Premo'}</Text>
-                    <Text>{'ajaipremo@gmail.com | premsanity.com | linkedin.com/in/anthony-premo | github.com/premo14'}</Text>
+                    <Text style={styles.header}>Anthony Premo</Text>
+                    <Text>
+                        ajaipremo@gmail.com | premsanity.com | linkedin.com/in/anthony-premo
+                        | github.com/premo14
+                    </Text>
                 </View>
 
-                {/* Technical Skills */}
                 <View style={styles.section}>
                     <Text style={styles.header}>Technical Skills</Text>
-                    {Object.entries(data.technicalSkills).map(([category, skills], idx) => (
-                        <Text key={idx}>{category}: {skills}</Text>
-                    ))}
+                    <Text>{renderSkillsLine((data as any).technicalSkills)}</Text>
                 </View>
 
-                {/* Professional Experience */}
                 <View style={styles.section}>
                     <Text style={styles.header}>Professional Experience</Text>
                     {data.professionalExperience.map((exp, idx) => (
                         <View key={idx} style={styles.section}>
-                            <Text style={styles.subheader}>{exp.title} | {exp.company} ({exp.location})</Text>
+                            <Text style={styles.subheader}>
+                                {exp.title} | {exp.company} ({exp.location})
+                            </Text>
                             <Text style={{ fontSize: 10 }}>{exp.dateRange}</Text>
                             {exp.bullets.map((bullet, bulletIdx) => (
-                                <Text key={bulletIdx} style={styles.bullet}>• {bullet}</Text>
+                                <Text key={bulletIdx} style={styles.bullet}>
+                                    • {bullet}
+                                </Text>
                             ))}
                         </View>
                     ))}
                 </View>
 
-                {/* Projects */}
                 <View style={styles.section}>
                     <Text style={styles.header}>Projects</Text>
                     {data.projects.map((proj, idx) => (
@@ -77,11 +91,12 @@ export function ResumePDF({ data }: ResumePDFProps) {
                     ))}
                 </View>
 
-                {/* Education */}
                 <View style={styles.section}>
                     <Text style={styles.header}>Education</Text>
                     {data.education.map((edu, idx) => (
-                        <Text key={idx}>{edu.degree} | {edu.institution}</Text>
+                        <Text key={idx}>
+                            {edu.degree} | {edu.institution}
+                        </Text>
                     ))}
                 </View>
             </Page>

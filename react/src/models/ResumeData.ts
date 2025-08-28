@@ -1,12 +1,5 @@
 interface ResumeData {
-    technicalSkills: {
-        languages: string;
-        frameworksAndLibraries: string;
-        databases: string;
-        cloud: string;
-        devops: string;
-        utilities: string;
-    };
+    technicalSkills: string[];
     professionalExperience: {
         title: string;
         company: string;
