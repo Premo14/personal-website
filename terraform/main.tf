@@ -1,5 +1,5 @@
 provider "aws" {
-  profile = "premo.aj.24@gmail.com"
+  profile = "prod-739"
   region = var.aws_region
 }
 
