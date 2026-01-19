@@ -1,20 +1,49 @@
 package models
 
 import (
+	"database/sql/driver"
+	"encoding/json"
+	"errors"
 	"time"
 
-	"gorm.io/datatypes"
 	"gorm.io/gorm"
 )
 
-type PortfolioProject struct {
+// Helper for JSONB or simple JSON storage
+type JSONStringArray []string
+
+func (a *JSONStringArray) Scan(value interface{}) error {
+	if value == nil {
+		*a = make([]string, 0)
+		return nil
+	}
+	var bytes []byte
+	switch v := value.(type) {
+	case []byte:
+		bytes = v
+	case string:
+		bytes = []byte(v)
+	default:
+		return errors.New("type assertion failed: value is neither []byte nor string")
+	}
+	return json.Unmarshal(bytes, a)
+}
+
+func (a JSONStringArray) Value() (driver.Value, error) {
+	return json.Marshal(a)
+}
+
+type Project struct {
 	gorm.Model
-	Title       string         `gorm:"type:varchar(255);not null" json:"title"`
-	Tools       datatypes.JSON `gorm:"type:jsonb;not null" json:"tools"`
-	Description string         `gorm:"type:text;not null" json:"description"`
-	SourceLink  string         `gorm:"type:text" json:"sourceLink"`
-	LiveLink    string         `gorm:"type:text" json:"liveLink"`
-	PublishedAt *time.Time     `gorm:"column:published_at" json:"publishedAt,omitempty"`
-	Featured    bool           `gorm:"default:false" json:"featured"`
-	Thumbnail   string         `gorm:"type:text" json:"thumbnail"`
+	Title            string          `gorm:"not null" json:"title"`
+	ShortDescription string          `gorm:"type:text" json:"short_description"`
+	Description      string          `gorm:"type:text" json:"description"`
+	Technologies     JSONStringArray `gorm:"type:text" json:"technologies"`
+	ImageURL         string          `json:"image_url"`
+	DemoLink         string          `json:"demo_link"`
+	GithubLink       string          `json:"github_link"`
+	StartDate        time.Time       `json:"start_date"`
+	EndDate          *time.Time      `json:"end_date"`
+	Featured         bool            `json:"featured"`
+	Experiences      []Experience    `gorm:"many2many:experience_projects;" json:"experiences"`
 }

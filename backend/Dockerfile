@@ -18,14 +18,14 @@ RUN go mod download
 COPY . .
 
 # Install air for live reload (only used in dev container)
-RUN go install github.com/air-verse/air@latest
+RUN go install github.com/air-verse/air@v1.61.0
 
 # Build the production binary
 RUN go build -o server .
 
 ##############################
 # Stage 2: Development container (with Air)
-FROM golang:1.23-alpine AS development
+FROM golang:1.24-alpine AS development
 
 WORKDIR /app
 

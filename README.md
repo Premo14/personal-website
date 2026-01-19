@@ -1,28 +1,34 @@
-# Personal-Website
+# Personal Website
+
+This is the repository for my personal portfolio website, designed to showcase my skills, experience, and projects as a Full Stack Engineer. The site is a Single Page Application (SPA) with a comprehensive Admin Panel for dynamic content management.
+
+## Features
+
+- **Dynamic Content**: All sections (Hero, About, Experience, Skills, Projects) are database-driven and manageable via an Admin Panel.
+- **Admin Panel**: Secure dashboard for CRUD operations on all website content.
+- **Modern UI/UX**: Dark-themed, responsive design with smooth animations.
+- **Resume Generation**: Dynamic resume viewing and downloading.
 
 ## Tech Stack
 
 ### Frontend
-- [**React**](https://reactjs.org/) (frontend UI framework)
-- [**Vite**](https://vitejs.dev/) (frontend build tool)
-- [**Tailwind CSS**](https://tailwindcss.com/) (utility-first CSS framework)
-- [**React Router**](https://reactrouter.com/) (client-side routing)
-- [**React Query**](https://tanstack.com/query/latest) (server-state management)
+- [**React**](https://reactjs.org/) (UI framework)
+- [**Vite**](https://vitejs.dev/) (Build tool)
+- [**TypeScript**](https://www.typescriptlang.org/) (Static typing)
+- [**Tailwind CSS**](https://tailwindcss.com/) (Styling)
+- [**Framer Motion**](https://www.framer.com/motion/) (Animations)
+- [**React Router**](https://reactrouter.com/) (Routing)
+- [**TanStack Query**](https://tanstack.com/query/latest) (State management)
 
 ### Backend
-- [**Go**](https://golang.org/) (backend programming language)
-- [**Fiber**](https://gofiber.io/) (Go web framework)
-- [**GORM**](https://gorm.io/) (ORM library for Go)
-- [**PostgreSQL**](https://www.postgresql.org/) (relational database)
+- [**Go**](https://golang.org/) (Language)
+- [**Fiber**](https://gofiber.io/) (Web framework)
+- [**GORM**](https://gorm.io/) (ORM)
+- [**PostgreSQL**](https://www.postgresql.org/) (Database)
+- [**JWT**](https://jwt.io/) (Authentication for Admin)
 
 ### DevOps / Cloud
-- [**Docker**](https://www.docker.com/) (containerization platform)
-- [**Docker Compose**](https://docs.docker.com/compose/) (multi-container orchestration for local dev)
-- [**GitHub Actions**](https://github.com/features/actions) (CI/CD automation)
-- [**Terraform**](https://www.terraform.io/) (infrastructure as code tool)
-
-#### AWS
-- [**EC2**](https://aws.amazon.com/ec2/) (virtual server hosting)
-- [**ECR**](https://aws.amazon.com/ecr/) (Docker image registry)
-- [**S3**](https://aws.amazon.com/s3/) (object storage service)
-- [**Route 53**](https://aws.amazon.com/route53/) (DNS and domain management)
+- [**Docker**](https://www.docker.com/) & [**Docker Compose**](https://docs.docker.com/compose/)
+- [**Terraform**](https://www.terraform.io/) (IaC)
+- [**AWS**](https://aws.amazon.com/) (EC2, S3, ECR, Route53)
+- [**GitHub Actions**](https://github.com/features/actions) (CI/CD)

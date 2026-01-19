@@ -41,6 +41,7 @@ services:
       - VITE_BACKEND_PORT=${VITE_BACKEND_PORT}
     volumes:
       - ./backend:/app
+      - ./backend/uploads:/root/uploads
     depends_on:
       - postgres
     restart: unless-stopped
@@ -64,6 +65,7 @@ services:
 
 volumes:
   postgres-data:
+
 
 networks:
   personal-website-network:

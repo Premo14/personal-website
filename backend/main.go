@@ -2,14 +2,15 @@ package main
 
 import (
 	"context"
-	"github.com/gofiber/fiber/v2/middleware/cors"
-	"github.com/premo14/personal-website/backend/config"
 	"log"
 	"os"
 	"os/signal"
 	"strings"
 	"syscall"
 	"time"
+
+	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/premo14/personal-website/backend/config"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/premo14/personal-website/backend/database"
@@ -40,8 +41,11 @@ func main() {
 	database.MigrateDB()
 	log.Println("Migrations applied successfully")
 
-	database.SeedDB()
+	database.SeedDB(database.DB)
 	log.Println("Seeding complete")
+
+	app.Static("/uploads", "./uploads")
+	log.Println("Static uploads directory served")
 
 	routes.SetupRoutes(app)
 	log.Println("Routes set up successfully")
