@@ -25,11 +25,23 @@ func UploadResume(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to create directory"})
 	}
 
-	// Save file as Resume_Anthony_Premo.pdf in uploads folder
-	if err := c.SaveFile(file, "./uploads/Resume_Anthony_Premo.pdf"); err != nil {
+	// Clean up old resume files to ensure only one exists
+	files, err := filepath.Glob("./uploads/Resume_*.pdf")
+	if err == nil {
+		for _, f := range files {
+			if err := os.Remove(f); err != nil {
+				log.Println("Error deleting old resume:", f, err)
+			} else {
+				log.Println("Deleted old resume:", f)
+			}
+		}
+	}
+
+	// Save file as Resume_Anthony-Premo.pdf in uploads folder
+	if err := c.SaveFile(file, "./uploads/Resume_Anthony-Premo.pdf"); err != nil {
 		log.Println("Error saving resume:", err)
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to save file"})
 	}
 
-	return c.JSON(fiber.Map{"message": "Resume uploaded successfully", "url": "/uploads/Resume_Anthony_Premo.pdf"})
+	return c.JSON(fiber.Map{"message": "Resume uploaded successfully", "url": "/uploads/Resume_Anthony-Premo.pdf"})
 }

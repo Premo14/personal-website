@@ -2,105 +2,79 @@
 exec > >(tee /var/log/user-data.log|logger -t user-data -s 2>/dev/console) 2>&1
 set -euxo pipefail
 
-echo "---- STARTING USER DATA SCRIPT ----"
+# 1. Install Dependencies
+dnf update -y
+dnf install -y nginx git
 
-# Install base packages
-apt-get update -y && apt-get upgrade -y
-apt-get install -y ca-certificates curl gnupg lsb-release unzip jq
+# 2. Prevent Nginx from starting immediately (we need to config it)
+systemctl stop nginx
 
-# Install Docker
-echo "Installing Docker..."
-curl -fsSL https://get.docker.com -o get-docker.sh
-sh get-docker.sh
-systemctl start docker
-systemctl enable docker
-chmod 666 /var/run/docker.sock
+# 3. Create Application Directory
+mkdir -p /var/www/personal-website/dist
+mkdir -p /var/www/personal-website/uploads
+chown -R ec2-user:ec2-user /var/www/personal-website
 
-# Install AWS CLI
-echo "Installing AWS CLI..."
-curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-unzip awscliv2.zip
-./aws/install
+# 3.5 Create .env file
+cat <<EOF > /var/www/personal-website/.env
+APP_ENV=production
+VITE_BUILD_STAGE=production
+VITE_PORT=80
+VITE_BACKEND_PORT=8080
+VITE_RESUME_UPLOAD_PASSCODE=${VITE_UPLOAD_PASSCODE}
+DB_DRIVER=sqlite
+DB_NAME=personal_website.db
+EOF
 
-# Log in to ECR
-echo "Logging in to ECR..."
-aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 739275461129.dkr.ecr.us-east-1.amazonaws.com
+# 4. Create Systemd Service for Go Backend
+cat <<EOF > /etc/systemd/system/personal-website.service
+[Unit]
+Description=Personal Website Backend
+After=network.target
 
-# Create .env file
-echo "Creating .env file..."
-cat <<EOT > /home/ubuntu/.env
-POSTGRES_USER=${POSTGRES_USER}
-POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-POSTGRES_DB=${POSTGRES_DB}
-VITE_UPLOAD_PASSCODE=${VITE_UPLOAD_PASSCODE}
-EOT
+[Service]
+User=ec2-user
+Group=ec2-user
+WorkingDirectory=/var/www/personal-website
+EnvironmentFile=/var/www/personal-website/.env
+ExecStart=/var/www/personal-website/server
+Restart=always
+RestartSec=5
 
-# Pull Docker images
-echo "Pulling Docker images..."
-docker pull 739275461129.dkr.ecr.us-east-1.amazonaws.com/personal-website-frontend:latest
-docker pull 739275461129.dkr.ecr.us-east-1.amazonaws.com/personal-website-backend:latest
-docker pull postgres:15
+[Install]
+WantedBy=multi-user.target
+EOF
 
-# Create docker-compose.yml
-echo "Creating docker-compose.yml..."
-cat <<EOT > /home/ubuntu/docker-compose.yml
-version: "3.8"
-services:
-  postgres:
-    image: postgres:15
-    container_name: postgres
-    restart: always
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
-      VITE_UPLOAD_PASSCODE: ${VITE_UPLOAD_PASSCODE}
-    volumes:
-      - postgres-data:/var/lib/postgresql/data
-    networks:
-      - personal-website-network
+# 5. Configure Nginx
+cat <<EOF > /etc/nginx/conf.d/personal-website.conf
+server {
+    listen 80;
+    server_name ${DOMAIN_NAME} www.${DOMAIN_NAME};
 
-  backend:
-    image: 739275461129.dkr.ecr.us-east-1.amazonaws.com/personal-website-backend:latest
-    container_name: backend
-    restart: always
-    environment:
-      DB_HOST: postgres
-      DB_PORT: 5432
-      DB_USER: ${POSTGRES_USER}
-      DB_PASSWORD: ${POSTGRES_PASSWORD}
-      DB_NAME: ${POSTGRES_DB}
-    ports:
-      - "8080:8080"
-    depends_on:
-      - postgres
-    networks:
-      - personal-website-network
+    location / {
+        root /var/www/personal-website/dist;
+        try_files \$uri \$uri/ /index.html;
+    }
 
-  frontend:
-    image: 739275461129.dkr.ecr.us-east-1.amazonaws.com/personal-website-frontend:latest
-    container_name: frontend
-    restart: always
-    environment:
-      VITE_UPLOAD_PASSCODE: ${VITE_UPLOAD_PASSCODE}
-    ports:
-      - "80:80"
-    depends_on:
-      - backend
-    networks:
-      - personal-website-network
+    location /api {
+        proxy_pass http://localhost:8080;
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+    }
+    
+    location /uploads {
+        alias /var/www/personal-website/uploads;
+    }
+}
+EOF
 
-volumes:
-  postgres-data:
+# Remove default nginx config if it conflicts
+rm -f /etc/nginx/conf.d/default.conf
 
-networks:
-  personal-website-network:
-    driver: bridge
-EOT
+# 6. Start Services
+systemctl daemon-reload
+systemctl enable personal-website
+systemctl enable nginx
+systemctl start nginx
 
-# Start containers
-echo "Starting containers..."
-cd /home/ubuntu
-docker compose --env-file .env up -d
-
-echo "---- USER DATA SCRIPT COMPLETE ----"
+echo "UserData script completed."

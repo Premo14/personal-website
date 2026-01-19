@@ -1,4 +1,4 @@
-output "ec2_public_ip" {
-  description = "The public IP of the EC2 instance"
-  value       = aws_instance.PersonalSiteEC2.public_ip
+output "server_public_ip" {
+  description = "The static public IP of the Lightsail instance"
+  value       = aws_lightsail_static_ip.server_ip.ip_address
 }

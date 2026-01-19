@@ -24,11 +24,11 @@ This is the repository for my personal portfolio website, designed to showcase m
 - [**Go**](https://golang.org/) (Language)
 - [**Fiber**](https://gofiber.io/) (Web framework)
 - [**GORM**](https://gorm.io/) (ORM)
-- [**PostgreSQL**](https://www.postgresql.org/) (Database)
+- [**SQLite**](https://www.sqlite.org/) / [**PostgreSQL**](https://www.postgresql.org/) (Database)
 - [**JWT**](https://jwt.io/) (Authentication for Admin)
 
 ### DevOps / Cloud
 - [**Docker**](https://www.docker.com/) & [**Docker Compose**](https://docs.docker.com/compose/)
-- [**Terraform**](https://www.terraform.io/) (IaC)
-- [**AWS**](https://aws.amazon.com/) (EC2, S3, ECR, Route53)
+- [**Terraform**](https://www.terraform.io/) (Infrastructure as Code)
+- [**AWS**](https://aws.amazon.com/) (Lightsail, S3, Route53)
 - [**GitHub Actions**](https://github.com/features/actions) (CI/CD)

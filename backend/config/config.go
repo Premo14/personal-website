@@ -17,6 +17,7 @@ type Config struct {
 	ViteResumeUploadPass string
 
 	// Database config
+	DBDriver   string
 	DBHost     string
 	DBPort     string
 	DBUser     string
@@ -35,6 +36,7 @@ func LoadConfig() *Config {
 		ViteResumeUploadPass: getEnv("VITE_RESUME_UPLOAD_PASSCODE", ""),
 
 		// Database
+		DBDriver:   getEnv("DB_DRIVER", "postgres"),
 		DBHost:     getEnv("DB_HOST", "localhost"),
 		DBPort:     getEnv("DB_PORT", "5432"),
 		DBUser:     getEnv("DB_USER", "postgres"),

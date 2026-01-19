@@ -21,7 +21,7 @@ func main() {
 	conf := config.LoadConfig()
 	app := fiber.New()
 
-	allowedOrigins := []string{"https://premsanity.com"}
+	allowedOrigins := []string{"https://anthonypremo.com", "https://www.anthonypremo.com"}
 
 	if os.Getenv("VITE_BUILD_STAGE") == "development" {
 		log.Println("Running in development mode, enabling localhost CORS")

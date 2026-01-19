@@ -12,7 +12,7 @@ const HeroSection = () => {
         }
     });
 
-    const resumeUrl = `${api.defaults.baseURL?.replace('/api', '')}/uploads/Resume_Anthony_Premo.pdf`;
+    const resumeUrl = `${api.defaults.baseURL?.replace('/api', '')}/uploads/Resume_Anthony-Premo.pdf`;
 
     if (!hero) return null;
 

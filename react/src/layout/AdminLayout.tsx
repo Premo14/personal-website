@@ -32,6 +32,7 @@ const AdminLayout = () => {
         { path: '/admin/education', label: 'Education' },
         { path: '/admin/skills', label: 'Skills' },
         { path: '/admin/about', label: 'About' },
+        { path: '/admin/resume', label: 'Resume' },
     ];
 
     return (
