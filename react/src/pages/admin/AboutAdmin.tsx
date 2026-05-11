@@ -4,6 +4,7 @@ import api from '@/api/client';
 import { useState, useEffect } from 'react';
 
 type AboutData = {
+    title: string;
     content: string;
 };
 
@@ -23,6 +24,7 @@ const AboutAdmin = () => {
 
     useEffect(() => {
         if (about) {
+            setValue('title', about.title);
             setValue('content', about.content);
         }
     }, [about, setValue]);
@@ -59,6 +61,15 @@ const AboutAdmin = () => {
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 max-w-2xl">
                 <div className="bg-gray-800 p-6 rounded-lg space-y-4">
+                    <div>
+                        <label className="block text-sm font-medium text-gray-400 mb-2">Professional Title / Tagline</label>
+                        <input
+                            {...register('title')}
+                            type="text"
+                            placeholder="e.g. Full Stack Architect"
+                            className="w-full bg-gray-900 border border-gray-700 rounded px-4 py-2 text-white focus:outline-none focus:border-brand mb-4"
+                        />
+                    </div>
                     <div>
                         <label className="block text-sm font-medium text-gray-400 mb-2">Biography Content</label>
                         <textarea

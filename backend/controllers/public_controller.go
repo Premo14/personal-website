@@ -40,6 +40,6 @@ func GetEducation(c *fiber.Ctx) error {
 
 func GetProjects(c *fiber.Ctx) error {
 	var projects []models.Project
-	database.DB.Order("featured desc, created_at desc").Find(&projects)
+	database.DB.Preload("Experiences").Order("featured desc, created_at desc").Find(&projects)
 	return c.JSON(projects)
 }

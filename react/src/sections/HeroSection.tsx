@@ -12,14 +12,14 @@ const HeroSection = () => {
         }
     });
 
-    const resumeUrl = `${api.defaults.baseURL?.replace('/api', '')}/uploads/Resume_Anthony-Premo.pdf`;
+    const resumeUrl = `${api.defaults.baseURL?.replace('/api', '')}/uploads/resume_apremo.pdf`;
 
     if (!hero) return null;
 
     return (
         <section id="hero" className="min-h-screen flex items-center justify-center relative overflow-hidden px-4">
             {/* Background enhancement */}
-            <div className="absolute inset-0 bg-gradient-to-br from-gray-900 to-black z-0" />
+            <div className="absolute inset-0 bg-linear-to-br from-gray-900 to-black z-0" />
 
             {/* Animated content */}
             <motion.div
@@ -28,7 +28,7 @@ const HeroSection = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, ease: "easeOut" }}
             >
-                <h1 className="text-5xl md:text-8xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-gray-400 mb-6 tracking-tight">
+                <h1 className="text-5xl md:text-8xl font-extrabold text-transparent bg-clip-text bg-linear-to-r from-white via-gray-200 to-gray-400 mb-6 tracking-tight">
                     {hero.title || "Hello, I'm Anthony"}
                 </h1>
                 <h2 className="text-2xl md:text-4xl text-brand font-light mb-8">

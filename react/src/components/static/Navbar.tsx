@@ -26,6 +26,7 @@ export default function Navbar() {
         { name: 'Experience', to: 'experience' },
         { name: 'Education', to: 'education' },
         { name: 'About', to: 'about' },
+        { name: 'Contact', to: 'contact' },
     ];
 
     // Variants for animation

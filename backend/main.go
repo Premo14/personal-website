@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/joho/godotenv"
 	"github.com/premo14/personal-website/backend/config"
 
 	"github.com/gofiber/fiber/v2"
@@ -18,12 +19,21 @@ import (
 )
 
 func main() {
+	if err := godotenv.Load(); err != nil {
+		log.Println("Details: .env file not found or error loading it")
+	}
 	conf := config.LoadConfig()
 	app := fiber.New()
 
+	// Check for seed flag
+	seedOnly := false
+	if len(os.Args) > 1 && (os.Args[1] == "--seed" || os.Args[1] == "-seed") {
+		seedOnly = true
+	}
+
 	allowedOrigins := []string{"https://anthonypremo.com", "https://www.anthonypremo.com"}
 
-	if os.Getenv("VITE_BUILD_STAGE") == "development" {
+	if conf.ViteBuildStage == "development" {
 		log.Println("Running in development mode, enabling localhost CORS")
 		allowedOrigins = append(allowedOrigins, "http://localhost:5173")
 	}
@@ -43,6 +53,11 @@ func main() {
 
 	database.SeedDB(database.DB)
 	log.Println("Seeding complete")
+
+	if seedOnly {
+		log.Println("Seed only mode: exiting application.")
+		os.Exit(0)
+	}
 
 	app.Static("/uploads", "./uploads")
 	log.Println("Static uploads directory served")

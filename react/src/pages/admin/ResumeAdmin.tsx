@@ -28,7 +28,7 @@ const ResumeAdmin = () => {
     const replaceResumeMutation = useMutation({
         mutationFn: async (blob: Blob) => {
             const formData = new FormData();
-            formData.append('resume', blob, 'Resume_Anthony-Premo.pdf');
+            formData.append('resume', blob, 'resume_apremo.pdf');
             return api.post('/admin/resume', formData, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
@@ -81,7 +81,7 @@ const ResumeAdmin = () => {
                                     </span>
                                 )}
 
-                                <PDFDownloadLink document={MyDoc} fileName="Resume_Anthony-Premo.pdf" className="flex items-center gap-2 bg-blue-600 px-4 py-2 rounded hover:bg-blue-500 font-bold transition">
+                                <PDFDownloadLink document={MyDoc} fileName="resume_apremo.pdf" className="flex items-center gap-2 bg-blue-600 px-4 py-2 rounded hover:bg-blue-500 font-bold transition">
                                     {loading ? 'Loading...' : <><Download size={20} /> Download PDF</>}
                                 </PDFDownloadLink>
 

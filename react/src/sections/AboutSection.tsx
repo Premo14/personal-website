@@ -76,7 +76,10 @@ const AboutSection = () => {
                         viewport={{ once: true }}
                         transition={{ duration: 0.8 }}
                     >
-                        <h2 className="text-4xl font-bold text-white mb-6">About Me</h2>
+                        <h2 className="text-4xl font-bold text-white mb-2">About Me</h2>
+                        {displayAbout.title && (
+                            <h3 className="text-xl text-brand font-semibold mb-6">{displayAbout.title}</h3>
+                        )}
                         <div className="prose prose-lg text-gray-400">
                             <p className="whitespace-pre-line">{displayAbout.content}</p>
                         </div>
@@ -91,15 +94,15 @@ const AboutSection = () => {
                         transition={{ duration: 0.8, delay: 0.2 }}
                     >
                         <h3 className="text-2xl font-bold text-white mb-6 border-b border-gray-800 pb-2">Technical Arsenal</h3>
-                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                             {displaySkills?.map((category: any) => (
                                 <div key={category.ID} className="mb-4">
-                                    <h4 className="text-brand font-bold mb-2 text-sm uppercase tracking-wider">{category.name}</h4>
-                                    <ul className="space-y-1">
+                                    <h4 className="text-brand font-bold mb-3 text-sm uppercase tracking-wider leading-tight">{category.name}</h4>
+                                    <ul className="space-y-2">
                                         {category.skills?.map((skill: any) => (
-                                            <li key={skill.ID} className="text-gray-400 text-sm flex items-center">
-                                                <span className="w-1.5 h-1.5 bg-gray-600 rounded-full mr-2" />
-                                                {skill.name}
+                                            <li key={skill.ID} className="text-gray-400 text-sm flex items-start">
+                                                <span className="w-1.5 h-1.5 bg-gray-600 rounded-full mr-2 mt-1.5 shrink-0" />
+                                                <span className="wrap-break-word">{skill.name}</span>
                                             </li>
                                         ))}
                                     </ul>

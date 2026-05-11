@@ -11,7 +11,6 @@ export default function Footer() {
                     { text: 'GitHub', href: 'https://github.com/Premo14' },
                     { text: 'LinkedIn', href: 'https://www.linkedin.com/in/anthony-premo' },
                     { text: 'Email Me', href: 'mailto:ajaipremo@gmail.com' },
-                    { text: 'Admin', href: '/admin/login' },
                 ].map(({ text, href }) => (
                     <a
                         key={text}

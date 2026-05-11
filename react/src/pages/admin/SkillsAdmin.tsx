@@ -7,7 +7,6 @@ import { Trash, Plus } from 'lucide-react';
 type Skill = {
     ID: number;
     name: string;
-    proficiency: number;
     skill_category_id: number;
 };
 
@@ -47,7 +46,7 @@ const SkillsAdmin = () => {
 
     const createSkill = useMutation({
         mutationFn: async (data: { name: string; category_id: number }) =>
-            api.post('/admin/skills', { name: data.name, proficiency: 5, skill_category_id: data.category_id }),
+            api.post('/admin/skills', { name: data.name, skill_category_id: data.category_id }),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['skills'] });
             setIsAddingSkill(null);

@@ -8,7 +8,6 @@ type HeroData = {
     subtitle: string;
     cta_text: string;
     cta_link: string;
-    background_image_url: string;
 };
 
 const HeroAdmin = () => {
@@ -29,7 +28,6 @@ const HeroAdmin = () => {
             setValue('subtitle', hero.subtitle);
             setValue('cta_text', hero.cta_text);
             setValue('cta_link', hero.cta_link);
-            setValue('background_image_url', hero.background_image_url);
         }
     }, [hero, setValue]);
 

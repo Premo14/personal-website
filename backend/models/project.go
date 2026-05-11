@@ -39,11 +39,14 @@ type Project struct {
 	ShortDescription string          `gorm:"type:text" json:"short_description"`
 	Description      string          `gorm:"type:text" json:"description"`
 	Technologies     JSONStringArray `gorm:"type:text" json:"technologies"`
-	ImageURL         string          `json:"image_url"`
 	DemoLink         string          `json:"demo_link"`
 	GithubLink       string          `json:"github_link"`
 	StartDate        time.Time       `json:"start_date"`
 	EndDate          *time.Time      `json:"end_date"`
 	Featured         bool            `json:"featured"`
-	Experiences      []Experience    `gorm:"many2many:experience_projects;" json:"experiences"`
+	IsPersonal       bool            `json:"is_personal" gorm:"default:false"`
+	Overview         string          `json:"overview" gorm:"type:text"`
+	// Belongs To Relationship
+	ExperienceID *uint      `json:"experience_id"`
+	Experience   Experience `json:"experience"`
 }

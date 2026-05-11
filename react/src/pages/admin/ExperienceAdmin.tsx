@@ -10,7 +10,9 @@ type Experience = {
     start_date: string;
     end_date: string | null;
     description: string;
+    overview: string;
     location: string;
+    company_link: string;
 };
 
 // Form helper type
@@ -88,7 +90,9 @@ const ExperienceAdmin = () => {
         setValue('start_date', exp.start_date ? exp.start_date.split('T')[0] : '');
         setValue('end_date', exp.end_date ? exp.end_date.split('T')[0] : '');
         setValue('description', exp.description);
+        setValue('overview', exp.overview);
         setValue('location', exp.location);
+        setValue('company_link', exp.company_link);
         setValue('is_current', !exp.end_date);
     };
 
@@ -138,7 +142,11 @@ const ExperienceAdmin = () => {
                             </div>
                         </div>
                     </div>
-                    <input {...register('location')} placeholder="Location" className="p-2 bg-gray-700 rounded border border-gray-600 w-full" />
+                    <textarea {...register('overview')} placeholder="Brief Overview (for resume/cards)" rows={2} className="p-2 bg-gray-700 rounded border border-gray-600 w-full" />
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <input {...register('location')} placeholder="Location" className="p-2 bg-gray-700 rounded border border-gray-600 w-full" />
+                        <input {...register('company_link')} placeholder="Company Website URL" className="p-2 bg-gray-700 rounded border border-gray-600 w-full" />
+                    </div>
                     <textarea {...register('description')} placeholder="Description" rows={4} className="p-2 bg-gray-700 rounded border border-gray-600 w-full" />
                     <div className="flex justify-end gap-2">
                         {editingId && <button type="button" onClick={() => { setEditingId(null); reset(); }} className="px-4 py-2 bg-gray-600 rounded">Cancel</button>}

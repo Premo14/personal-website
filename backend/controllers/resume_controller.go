@@ -25,23 +25,27 @@ func UploadResume(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to create directory"})
 	}
 
-	// Clean up old resume files to ensure only one exists
-	files, err := filepath.Glob("./uploads/Resume_*.pdf")
+	// Clean up old resume files to ensure consistency (case-insensitive check)
+	entries, err := os.ReadDir("./uploads")
 	if err == nil {
-		for _, f := range files {
-			if err := os.Remove(f); err != nil {
-				log.Println("Error deleting old resume:", f, err)
-			} else {
-				log.Println("Deleted old resume:", f)
+		for _, entry := range entries {
+			if !entry.IsDir() {
+				name := entry.Name()
+				lowerName := filepath.Base(name) // It's just the name
+				if (len(lowerName) >= 7 && lowerName[:7] == "resume_" || len(lowerName) >= 7 && lowerName[:7] == "Resume_") && filepath.Ext(name) == ".pdf" {
+					if name != "resume_apremo.pdf" { // Keep the current one if it exists, though we'll overwrite it anyway
+						os.Remove(filepath.Join("./uploads", name))
+					}
+				}
 			}
 		}
 	}
 
-	// Save file as Resume_Anthony-Premo.pdf in uploads folder
-	if err := c.SaveFile(file, "./uploads/Resume_Anthony-Premo.pdf"); err != nil {
+	// Save file as resume_apremo.pdf in uploads folder
+	if err := c.SaveFile(file, "./uploads/resume_apremo.pdf"); err != nil {
 		log.Println("Error saving resume:", err)
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to save file"})
 	}
 
-	return c.JSON(fiber.Map{"message": "Resume uploaded successfully", "url": "/uploads/Resume_Anthony-Premo.pdf"})
+	return c.JSON(fiber.Map{"message": "Resume uploaded successfully", "url": "/uploads/resume_apremo.pdf"})
 }

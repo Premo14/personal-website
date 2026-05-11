@@ -23,11 +23,10 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
-    /* Added to support @/ paths */
-    "baseUrl": ".",
+    /* paths are now resolved relative to the tsconfig.json file directly in modern TS */
     "paths": {
       "@/*": [
-        "src/*"
+        "./src/*"
       ]
     }
   },

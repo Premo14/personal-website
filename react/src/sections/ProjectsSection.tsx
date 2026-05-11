@@ -3,20 +3,22 @@ import { motion } from 'framer-motion';
 import api from '@/api/client';
 import { useState } from 'react';
 import Modal from '@/components/ui/Modal';
-import { Github, ExternalLink } from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
+import { FaGithub } from 'react-icons/fa';
 
 type Project = {
     ID: number;
     title: string;
     short_description: string;
     description: string;
+    overview: string;
     technologies: string[];
     github_link: string;
     demo_link: string;
-    image_url?: string;
     featured: boolean;
     start_date?: string;
     end_date?: string;
+    experiences?: { company: string }[];
 };
 
 // Deterministic gradient based on string
@@ -50,18 +52,18 @@ const ProjectsSection = () => {
     const defaultProject: Project = {
         ID: 0,
         title: "Project Placeholder",
-        short_description: "This is a default project card. It appears when no projects are listed in the database.",
+        short_description: "This is a default project card.",
         description: "This is a detailed description of the default project. It exists to show what the layout looks like.",
+        overview: "This is a short overview of the project.",
         technologies: ["React", "Go", "Tailwind"],
         github_link: "#",
         demo_link: "#",
         featured: false,
-        image_url: "",
         start_date: new Date().toISOString(),
         end_date: ""
     };
 
-    const displayProjects = projects && projects.length > 0 ? projects : [defaultProject];
+    const displayProjects = Array.isArray(projects) && projects.length > 0 ? projects : [defaultProject];
 
     const formatDate = (dateStr?: string) => {
         if (!dateStr) return '';
@@ -101,21 +103,17 @@ const ProjectsSection = () => {
                             )}
 
                             <div className="h-48 bg-gray-700 overflow-hidden relative group shrink-0">
-                                {project.image_url ? (
-                                    <img src={project.image_url} alt={project.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
-                                ) : (
-                                    <div className={`h-48 flex flex-col items-center justify-center p-6 text-center transition-colors duration-500 bg-gradient-to-br ${getGradient(project.title)}`}>
-                                        <div className="bg-black/20 p-3 rounded-full mb-3 backdrop-blur-sm">
-                                            <ExternalLink size={24} className="text-white" />
-                                        </div>
-                                        <h4 className="text-xl font-bold text-white drop-shadow-md">{project.title}</h4>
+                                <div className={`h-48 flex flex-col items-center justify-center p-6 text-center transition-colors duration-500 bg-linear-to-br ${getGradient(project.title)}`}>
+                                    <div className="bg-black/20 p-3 rounded-full mb-3 backdrop-blur-sm">
+                                        <ExternalLink size={24} className="text-white" />
                                     </div>
-                                )}
+                                    <h4 className="text-xl font-bold text-white drop-shadow-md">{project.title}</h4>
+                                </div>
                                 <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                                     <span className="text-white font-bold px-4 py-2 border border-white rounded-full">View Details</span>
                                 </div>
                             </div>
-                            <div className="p-6 flex flex-col flex-grow">
+                            <div className="p-6 flex flex-col grow">
                                 <div className="flex justify-between items-start mb-2">
                                     <h3 className="text-2xl font-bold text-white group-hover:text-brand transition-colors">{project.title}</h3>
                                     {project.start_date && (
@@ -124,7 +122,13 @@ const ProjectsSection = () => {
                                         </span>
                                     )}
                                 </div>
-                                <p className="text-gray-400 mb-4 line-clamp-3 text-sm">{project.short_description}</p>
+                                {project.experiences && project.experiences.length > 0 && (
+                                    <div className="text-xs text-gray-400 mb-2">
+                                        <span className="opacity-70">via </span>
+                                        <span className="text-gray-200 font-semibold">{project.experiences.map(e => e.company).join(', ')}</span>
+                                    </div>
+                                )}
+                                <p className="text-gray-400 mb-4 line-clamp-3 text-sm">{project.overview || project.short_description}</p>
                                 <div className="flex flex-wrap gap-2">
                                     {project.technologies?.slice(0, 3).map((tech) => (
                                         <span key={tech} className="text-xs bg-gray-900 text-gray-300 px-2 py-1 rounded">
@@ -156,7 +160,7 @@ const ProjectsSection = () => {
                                 rel="noreferrer"
                                 className="flex items-center gap-2 px-4 py-2 bg-gray-800 rounded hover:bg-gray-700 text-white transition"
                             >
-                                <Github size={20} /> GitHub
+                                <FaGithub size={20} /> GitHub
                             </a>
                         )}
                         {selectedProject?.demo_link && (

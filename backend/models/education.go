@@ -13,5 +13,5 @@ type Education struct {
 	Title       string     `gorm:"not null" json:"title"`
 	StartDate   time.Time  `json:"start_date"`
 	EndDate     *time.Time `json:"end_date"`
-	Description string     `gorm:"type:text" json:"description"`
+	Description string     `json:"description" gorm:"type:text"`
 }

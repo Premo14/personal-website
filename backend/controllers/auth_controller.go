@@ -1,19 +1,17 @@
 package controllers
 
 import (
+	"log"
+	"os"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v5"
-	"github.com/premo14/personal-website/backend/database"
 	"github.com/premo14/personal-website/backend/middleware"
-	"github.com/premo14/personal-website/backend/models"
-	"golang.org/x/crypto/bcrypt"
 )
 
 func Login(c *fiber.Ctx) error {
 	var input struct {
-		Username string `json:"username"`
 		Password string `json:"password"`
 	}
 
@@ -21,17 +19,22 @@ func Login(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid input"})
 	}
 
-	var user models.User
-	if err := database.DB.Where("username = ?", input.Username).First(&user).Error; err != nil {
+	passphrase := os.Getenv("ADMIN_PASSPHRASE")
+	if passphrase == "" {
+		// Fallback for development if not set, or error out.
+		// Ideally log a warning. For now let's assume it must be set.
+		log.Println("WARNING: ADMIN_PASSPHRASE not set")
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Server misconfiguration"})
+	}
+
+	if input.Password != passphrase {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "Invalid credentials"})
 	}
 
-	if err := bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte(input.Password)); err != nil {
-		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "Invalid credentials"})
-	}
-
+	// Create token
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"user_id": user.ID,
+		"user_id": 1, // Static ID since we aren't using DB users anymore
+		"role":    "admin",
 		"exp":     time.Now().Add(time.Hour * 24).Unix(),
 	})
 

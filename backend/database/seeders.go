@@ -9,9 +9,10 @@ import (
 func SeedDB(db *gorm.DB) {
 	log.Println("Starting database seeding...")
 
-	SeedAdmin(db)
-	SeedHero(db)
-	SeedContent(db)
+	SeedLocalContent(db) // Seed from local template
+	SeedAdmin(db)        // Ensure admin user exists
+	// SeedHero(db)      // Covered by local content
+	// SeedContent(db)   // Covered by local content
 
 	log.Println("Seeding process completed!")
 }

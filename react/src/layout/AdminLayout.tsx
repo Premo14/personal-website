@@ -10,7 +10,7 @@ const AdminLayout = () => {
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (!token) {
-            navigate('/admin/login');
+            navigate('/portal/login');
         }
     }, [navigate]);
 
@@ -21,18 +21,18 @@ const AdminLayout = () => {
 
     const handleLogout = () => {
         localStorage.removeItem('token');
-        navigate('/admin/login');
+        navigate('/portal/login');
     };
 
     const navLinks = [
-        { path: '/admin/dashboard', label: 'Dashboard' },
-        { path: '/admin/hero', label: 'Hero' },
-        { path: '/admin/projects', label: 'Projects' },
-        { path: '/admin/experience', label: 'Experience' },
-        { path: '/admin/education', label: 'Education' },
-        { path: '/admin/skills', label: 'Skills' },
-        { path: '/admin/about', label: 'About' },
-        { path: '/admin/resume', label: 'Resume' },
+        { path: '/portal/dashboard', label: 'Dashboard' },
+        { path: '/portal/hero', label: 'Hero' },
+        { path: '/portal/projects', label: 'Projects' },
+        { path: '/portal/experience', label: 'Experience' },
+        { path: '/portal/education', label: 'Education' },
+        { path: '/portal/skills', label: 'Skills' },
+        { path: '/portal/about', label: 'About' },
+        { path: '/portal/resume', label: 'Resume' },
     ];
 
     return (

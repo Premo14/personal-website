@@ -32,3 +32,4 @@ data
 .terraform
 terraform.tfvars
 kp/
+reset_db.sh
