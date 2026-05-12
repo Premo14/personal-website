@@ -153,6 +153,7 @@ Outside of the IDE, you can usually find me keeping up with sports, exploring th
 			StartDate:        mustParse("2025-04-01"),
 			EndDate:          getDate("2026-05-01"),
 			ExperienceID:     &upnExp.ID,
+			DemoLink:         "https://apps.apple.com/us/app/adk-rail-trail/id6753904870",
 			Featured:         true,
 		}
 		db.Create(&p1)

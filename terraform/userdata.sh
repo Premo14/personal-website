@@ -4,7 +4,7 @@ set -euxo pipefail
 
 # 1. Install Dependencies
 dnf update -y
-dnf install -y nginx git
+dnf install -y nginx git certbot python3-certbot-nginx
 
 # 2. Prevent Nginx from starting immediately (we need to config it)
 systemctl stop nginx
@@ -21,6 +21,7 @@ VITE_BUILD_STAGE=production
 VITE_PORT=80
 VITE_BACKEND_PORT=8080
 VITE_RESUME_UPLOAD_PASSCODE=${VITE_UPLOAD_PASSCODE}
+ADMIN_PASSPHRASE=${VITE_UPLOAD_PASSCODE}
 DB_DRIVER=sqlite
 DB_NAME=personal_website.db
 EOF
@@ -76,5 +77,11 @@ systemctl daemon-reload
 systemctl enable personal-website
 systemctl enable nginx
 systemctl start nginx
+
+# 7. Provision SSL Certificate (optional, will fail if DNS not propagated)
+# We use a subshell and || true to ensure userdata completes even if certbot fails
+(
+    certbot --nginx -d ${DOMAIN_NAME} -d www.${DOMAIN_NAME} --non-interactive --agree-tos --register-unsafely-without-email || echo "Certbot failed, likely due to DNS propagation."
+)
 
 echo "UserData script completed."
