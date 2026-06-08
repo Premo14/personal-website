@@ -127,6 +127,7 @@ type ResumeProps = {
 };
 
 const ResumePDF = ({ skills, experience, projects, education }: ResumeProps) => {
+    console.log("PROJECTS DATA IN PDF:", projects);
     const formatDate = (dateStr: string) => {
         if (!dateStr) return '';
         const d = new Date(dateStr);
