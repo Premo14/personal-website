@@ -66,7 +66,7 @@ const EducationSection = () => {
                             <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-gray-800 p-6 rounded-lg border border-gray-700 shadow-xl hover:border-brand transition-colors">
                                 <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-2">
                                     <h3 className="text-xl font-bold text-white">{item.institution}</h3>
-                                    <span className="text-sm font-mono text-brand bg-brand/10 px-2 py-0.5 rounded w-fit mt-1 md:mt-0">
+                                    <span className="text-sm font-mono text-brand bg-brand/10 px-2 py-0.5 rounded w-fit mt-1 md:mt-0 whitespace-nowrap">
                                         {new Date(item.start_date).getFullYear()} - {item.end_date ? new Date(item.end_date).getFullYear() : 'Present'}
                                     </span>
                                 </div>

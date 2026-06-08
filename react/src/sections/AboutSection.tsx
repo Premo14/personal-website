@@ -94,7 +94,7 @@ const AboutSection = () => {
                         transition={{ duration: 0.8, delay: 0.2 }}
                     >
                         <h3 className="text-2xl font-bold text-white mb-6 border-b border-gray-800 pb-2">Technical Arsenal</h3>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                             {displaySkills?.map((category: any) => (
                                 <div key={category.ID} className="mb-4">
                                     <h4 className="text-brand font-bold mb-3 text-sm uppercase tracking-wider leading-tight">{category.name}</h4>

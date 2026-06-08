@@ -171,7 +171,7 @@ const ResumePDF = ({ skills, experience, projects, education }: ResumeProps) => 
                 {/* Skills */}
                 <View style={styles.section}>
                     <Text style={styles.sectionTitle}>Skills</Text>
-                    {skills.map((cat) => (
+                    {skills.map((cat: any) => (
                         <View key={cat.ID} style={styles.skillCategory}>
                             <Text style={styles.skillCategoryName}>{cat.name}:</Text>
                             <Text style={styles.skillList}>{getSkillString(cat.skills)}</Text>
@@ -211,6 +211,7 @@ const ResumePDF = ({ skills, experience, projects, education }: ResumeProps) => 
                                     </Text>
                                 </View>
                                 {proj.overview && <Text style={styles.overview}>{proj.overview}</Text>}
+                                {renderDescription(proj.description)}
                                 {proj.technologies && proj.technologies.length > 0 && (
                                     <Text style={styles.projectTech}><Text style={{ fontWeight: 'bold' }}>Tools:</Text> {proj.technologies.join(', ')}</Text>
                                 )}
@@ -236,7 +237,6 @@ const ResumePDF = ({ skills, experience, projects, education }: ResumeProps) => 
                         </View>
                     ))}
                 </View>
-
             </Page>
         </Document>
     );
