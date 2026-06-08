@@ -18,7 +18,7 @@ type Project = {
     featured: boolean;
     start_date?: string;
     end_date?: string;
-    experiences?: { company: string }[];
+    experience?: { company: string } | null;
 };
 
 // Deterministic gradient based on string
@@ -122,10 +122,10 @@ const ProjectsSection = () => {
                                         </span>
                                     )}
                                 </div>
-                                {project.experiences && project.experiences.length > 0 && (
+                                {project.experience && (
                                     <div className="text-xs text-gray-400 mb-2">
                                         <span className="opacity-70">via </span>
-                                        <span className="text-gray-200 font-semibold">{project.experiences.map(e => e.company).join(', ')}</span>
+                                        <span className="text-gray-200 font-semibold">{project.experience.company}</span>
                                     </div>
                                 )}
                                 <p className="text-gray-400 mb-4 line-clamp-3 text-sm">{project.overview || project.short_description}</p>

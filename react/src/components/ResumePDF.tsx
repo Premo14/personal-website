@@ -142,12 +142,12 @@ const ResumePDF = ({ skills, experience, projects, education }: ResumeProps) => 
             const isBullet = line.trim().startsWith('*') || line.trim().startsWith('-');
             const text = isBullet ? line.trim().substring(1).trim() : line.trim();
             return isBullet ? (
-                <View key={i} style={styles.bulletPoint}>
+                <View key={i} style={styles.bulletPoint} wrap={false}>
                     <Text style={styles.bullet}>•</Text>
                     <Text style={styles.bulletText}>{text}</Text>
                 </View>
             ) : (
-                <Text key={i} style={styles.description}>{text}</Text>
+                <Text key={i} style={styles.description} wrap={false}>{text}</Text>
             );
         });
     };

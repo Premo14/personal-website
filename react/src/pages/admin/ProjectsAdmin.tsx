@@ -17,7 +17,8 @@ type Project = {
     end_date: string | null;
     is_personal: boolean;
     overview: string;
-    experiences: { ID: number; company: string }[];
+    experience_id?: number | null;
+    experience?: { ID: number; company: string } | null;
 };
 
 type ProjectFormData = {
@@ -163,12 +164,9 @@ const ProjectsAdmin = () => {
         const techs = proj.technologies?.map(t => ({ value: t })) || [{ value: '' }];
         setValue('technologies', techs);
 
-        // Handle experiences - Select the first one if linking exists, though DB supports one.
-        // The previous frontend might have returned a list, but we only care about ID if it's there.
-        // Assuming the backend populates experiences array or looking for a singular experience relation.
-        // If the backend returns 'experiences' list, grab first ID.
-        if (proj.experiences && proj.experiences.length > 0) {
-            setValue('experience_id', proj.experiences[0].ID.toString());
+        // Handle experience link
+        if (proj.experience_id) {
+            setValue('experience_id', proj.experience_id.toString());
         } else {
             setValue('experience_id', "");
         }
@@ -187,8 +185,8 @@ const ProjectsAdmin = () => {
                         <div className="flex-1 w-full min-w-0">
                             <h3 className="font-bold text-xl text-brand truncate">{proj.title} {proj.is_personal && <span className="text-xs bg-gray-600 px-2 py-0.5 rounded ml-2 text-white">Personal</span>}</h3>
                             <p className="text-sm text-gray-400 truncate md:max-w-2xl">{proj.short_description}</p>
-                            {proj.experiences && proj.experiences.length > 0 && (
-                                <p className="text-xs text-gray-400 mt-1">Exp: {proj.experiences[0].company}</p>
+                            {proj.experience && (
+                                <p className="text-xs text-gray-400 mt-1">Exp: {proj.experience.company}</p>
                             )}
                         </div>
                         <div className="flex gap-2 w-full md:w-auto shrink-0">
