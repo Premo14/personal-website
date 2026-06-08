@@ -65,6 +65,8 @@ server {
     
     location /uploads {
         alias /var/www/personal-website/uploads;
+        add_header Cache-Control "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0";
+        expires off;
     }
 }
 EOF
