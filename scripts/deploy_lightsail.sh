@@ -41,6 +41,13 @@ scp -o StrictHostKeyChecking=no -i $KEY_PATH \
     backend/server \
     $LIGHTSAIL_USER@$LIGHTSAIL_HOST:/var/www/personal-website/server.new
 
+# Upload resume PDF if it exists
+if [ -f backend/uploads/resume_apremo.pdf ]; then
+    scp -o StrictHostKeyChecking=no -i $KEY_PATH \
+        backend/uploads/resume_apremo.pdf \
+        $LIGHTSAIL_USER@$LIGHTSAIL_HOST:/var/www/personal-website/uploads/resume_apremo.pdf
+fi
+
 # 4. Swap Binary & Restart Service
 echo "Restarting service..."
 ssh -o StrictHostKeyChecking=no -i $KEY_PATH $LIGHTSAIL_USER@$LIGHTSAIL_HOST << 'EOF'
