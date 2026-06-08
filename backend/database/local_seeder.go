@@ -9,7 +9,6 @@ import (
 )
 
 func SeedLocalContent(db *gorm.DB) {
-	var count int64
 	log.Println("Checking for existing content...")
 
 	getDate := func(dateStr string) *time.Time {
@@ -48,67 +47,65 @@ I approach software engineering with a straightforward philosophy: prioritize se
 	}
 
 	// 2. Skills
-	db.Model(&models.SkillCategory{}).Count(&count)
-	if count == 0 {
-		log.Println("Seeding Skills...")
+	log.Println("Syncing Skills...")
+	db.Exec("DELETE FROM skills")
+	db.Exec("DELETE FROM skill_categories")
 
-		languages := models.SkillCategory{
-			Name:       "Languages",
-			OrderIndex: 1,
-			Skills: []models.Skill{
-				{Name: "Go (Golang)"}, {Name: "TypeScript/JavaScript"},
-				{Name: "Dart"}, {Name: "SQL"}, {Name: "Bash"},
-			},
-		}
-		db.Create(&languages)
-
-		backend := models.SkillCategory{
-			Name:       "Backend",
-			OrderIndex: 2,
-			Skills: []models.Skill{
-				{Name: "Fiber (Go)"}, {Name: "GORM"}, {Name: "Node.js"}, {Name: "Express.js"},
-			},
-		}
-		db.Create(&backend)
-
-		frontendMobile := models.SkillCategory{
-			Name:       "Frontend & Mobile",
-			OrderIndex: 3,
-			Skills: []models.Skill{
-				{Name: "React"}, {Name: "Flutter"}, {Name: "Tailwind CSS"},
-			},
-		}
-		db.Create(&frontendMobile)
-
-		databases := models.SkillCategory{
-			Name:       "Databases",
-			OrderIndex: 4,
-			Skills: []models.Skill{
-				{Name: "PostgreSQL"}, {Name: "MariaDB"}, {Name: "SQLite"},
-			},
-		}
-		db.Create(&databases)
-
-		cloudDevOps := models.SkillCategory{
-			Name:       "Cloud & DevOps",
-			OrderIndex: 5,
-			Skills: []models.Skill{
-				{Name: "AWS"}, {Name: "Docker"}, {Name: "Terraform"},
-				{Name: "GitHub Actions"}, {Name: "Linux"},
-			},
-		}
-		db.Create(&cloudDevOps)
-
-		securityArch := models.SkillCategory{
-			Name:       "Security & Architecture",
-			OrderIndex: 6,
-			Skills: []models.Skill{
-				{Name: "RBAC (Role-Based Access Control)"}, {Name: "Penetration Testing"},
-				{Name: "COPPA Compliance"}, {Name: "System Architecture"},
-			},
-		}
-		db.Create(&securityArch)
+	languagesBackend := models.SkillCategory{
+		Name:       "Languages & Backend",
+		OrderIndex: 1,
+		Skills: []models.Skill{
+			{Name: "Go (Golang)"},
+			{Name: "Dart"},
+			{Name: "TypeScript"},
+			{Name: "SQL"},
+			{Name: "Bash"},
+			{Name: "Fiber"},
+			{Name: "Node.js"},
+			{Name: "Express.js"},
+			{Name: "GORM"},
+		},
 	}
+	db.Create(&languagesBackend)
+
+	frontendMobile := models.SkillCategory{
+		Name:       "Frontend & Mobile",
+		OrderIndex: 2,
+		Skills: []models.Skill{
+			{Name: "React"},
+			{Name: "Flutter"},
+			{Name: "Tailwind CSS"},
+		},
+	}
+	db.Create(&frontendMobile)
+
+	cloudDevopsDatabases := models.SkillCategory{
+		Name:       "Cloud, DevOps & Databases",
+		OrderIndex: 3,
+		Skills: []models.Skill{
+			{Name: "AWS"},
+			{Name: "Docker"},
+			{Name: "Terraform"},
+			{Name: "Linux"},
+			{Name: "GitHub Actions"},
+			{Name: "PostgreSQL"},
+			{Name: "MariaDB"},
+			{Name: "SQLite"},
+		},
+	}
+	db.Create(&cloudDevopsDatabases)
+
+	architectureSecurity := models.SkillCategory{
+		Name:       "Architecture & Security",
+		OrderIndex: 4,
+		Skills: []models.Skill{
+			{Name: "RBAC"},
+			{Name: "System Architecture"},
+			{Name: "Penetration Testing"},
+			{Name: "COPPA Compliance"},
+		},
+	}
+	db.Create(&architectureSecurity)
 
 	// 3. Experience
 	log.Println("Syncing Experience...")

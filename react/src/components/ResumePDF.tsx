@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     },
     skillCategoryName: {
         fontWeight: 'bold',
-        width: 100,
+        width: 160,
         fontSize: 10,
         color: '#000000',
     },
