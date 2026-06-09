@@ -6,10 +6,6 @@ const AboutSection = () => {
     const { data: aboutContent } = useQuery({
         queryKey: ['about'],
         queryFn: async () => {
-            // Fallback if no specific "About" endpoint exists yet, reusing PublicController logic or adding new endpoint. 
-            // Assuming /public/about exists or we use hero data for now.
-            // Actually, I recalled creating an AboutMe model but need to check if there is a public endpoint. 
-            // Checking public_controller.go earlier... yes, public/about exists.
             try {
                 const res = await api.get('/public/about');
                 return res.data;

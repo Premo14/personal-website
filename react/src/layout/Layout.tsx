@@ -3,7 +3,6 @@ import Navbar from '@/components/static/Navbar.tsx';
 import Footer from '@/components/static/Footer.tsx';
 
 export default function Layout({ children }: { children: ReactNode }) {
-    // const location = useLocation(); // Unused now
 
     return (
         <div className="bg-background text-textPrimary transition-colors duration-300 min-h-screen flex flex-col">

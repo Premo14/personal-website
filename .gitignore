@@ -33,3 +33,16 @@ data
 terraform.tfvars
 kp/
 reset_db.sh
+
+# Database & build output
+backend/personal_website.db
+backend/backend
+backend/server
+backend/tmp/
+backend/build_output.txt
+react/tsconfig.tsbuildinfo
+
+# Terraform state
+terraform/terraform.tfstate
+terraform/terraform.tfstate.backup
+

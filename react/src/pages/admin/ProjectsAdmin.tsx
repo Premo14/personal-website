@@ -308,8 +308,7 @@ const ProjectsAdmin = () => {
                         </button>
                     </div>
                 </form>
-            </div> // END FORM
-
+            </div>
         </div>
     );
 };

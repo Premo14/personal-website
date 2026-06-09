@@ -41,9 +41,6 @@ func UpdateHero(c *fiber.Ctx) error {
 	return c.JSON(hero)
 }
 
-// ... other CRUD handlers can be implemented similarly or genericised further.
-// For expediency, I will implement a robust set of specific handlers for clarity.
-
 // --- Skills ---
 func CreateSkill(c *fiber.Ctx) error {
 	skill := new(models.Skill)
@@ -138,12 +135,9 @@ func CreateProject(c *fiber.Ctx) error {
 }
 func UpdateProject(c *fiber.Ctx) error {
 	id := c.Params("id")
-	// Debug log to check if route is hit and ID is received
-	// log.Printf("UpdateProject hit with ID: %s", id)
 
 	var proj models.Project
 	if err := database.DB.Where("id = ?", id).First(&proj).Error; err != nil {
-		// log.Printf("Project %s not found: %v", id, err)
 		return c.Status(404).SendString("Not found")
 	}
 	if err := c.BodyParser(&proj); err != nil {

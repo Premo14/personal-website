@@ -4,8 +4,9 @@ set -e
 # --- Deployment Configuration ---
 LIGHTSAIL_HOST="anthonypremo.com"
 LIGHTSAIL_USER="ec2-user"
-# Dynamically resolve key path to handle execution from different directories
-KEY_PATH=$(realpath "../terraform/kp/personal-website-key.pem")
+# Dynamically resolve key path relative to script directory
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+KEY_PATH=$(realpath "$SCRIPT_DIR/../terraform/kp/personal-website-key.pem")
 
 # Ensure SSH key exists before proceeding
 if [ ! -f "$KEY_PATH" ]; then

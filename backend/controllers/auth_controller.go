@@ -21,8 +21,7 @@ func Login(c *fiber.Ctx) error {
 
 	passphrase := os.Getenv("ADMIN_PASSPHRASE")
 	if passphrase == "" {
-		// Fallback for development if not set, or error out.
-		// Ideally log a warning. For now let's assume it must be set.
+		// Ensure ADMIN_PASSPHRASE is configured
 		log.Println("WARNING: ADMIN_PASSPHRASE not set")
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Server misconfiguration"})
 	}
@@ -33,7 +32,7 @@ func Login(c *fiber.Ctx) error {
 
 	// Create token
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"user_id": 1, // Static ID since we aren't using DB users anymore
+		"user_id": 1,
 		"role":    "admin",
 		"exp":     time.Now().Add(time.Hour * 24).Unix(),
 	})
