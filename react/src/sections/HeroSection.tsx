@@ -5,7 +5,7 @@ import { Link } from 'react-scroll';
 import { ArrowRight, FileText } from 'lucide-react';
 
 const HeroSection = () => {
-    const { data: hero } = useQuery({
+    const { data: hero, isLoading } = useQuery({
         queryKey: ['hero'],
         queryFn: async () => {
             const res = await api.get('/public/hero');
@@ -15,6 +15,18 @@ const HeroSection = () => {
 
     const resumeUrl = `${api.defaults.baseURL?.replace('/api', '')}/uploads/resume_apremo.pdf`;
 
+    if (isLoading) {
+        return (
+            <section id="hero" className="min-h-screen flex items-center justify-center relative px-6 w-full overflow-hidden">
+                <div className="absolute inset-0 grid-bg z-0 pointer-events-none opacity-20" />
+                <div className="flex flex-col items-center gap-6 z-10">
+                    <div className="w-12 h-12 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
+                    <span className="text-white/50 font-mono uppercase tracking-widest text-xs animate-pulse">Loading Interface...</span>
+                </div>
+            </section>
+        );
+    }
+
     if (!hero) return null;
 
     return (
@@ -22,8 +34,8 @@ const HeroSection = () => {
             {/* Grid Background */}
             <div className="absolute inset-0 grid-bg z-0 pointer-events-none opacity-40" />
 
-            {/* Glowing Accent */}
-            <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-150 h-100 bg-white/5 rounded-full blur-[100px] pointer-events-none z-0" />
+            {/* Radial Gradient Glow (Replacing heavy blur filter) */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-150 h-100 bg-[radial-gradient(ellipse_at_center,var(--tw-gradient-stops))] from-white/10 via-white/5 to-transparent rounded-full pointer-events-none z-0" />
 
             {/* Animated content */}
             <motion.div

@@ -40,7 +40,7 @@ const getPatternClass = (str: string) => {
 
 const ProjectsSection = () => {
     const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-    const { data: projects } = useQuery({
+    const { data: projects, isLoading } = useQuery({
         queryKey: ['projects'],
         queryFn: async () => {
             const res = await api.get('/public/projects');
@@ -62,12 +62,23 @@ const ProjectsSection = () => {
         end_date: ""
     };
 
-    const displayProjects = Array.isArray(projects) && projects.length > 0 ? projects : [defaultProject];
+    const displayProjects = !isLoading && Array.isArray(projects) && projects.length > 0 ? projects : (isLoading ? [] : [defaultProject]);
 
     const formatDate = (dateStr?: string) => {
         if (!dateStr) return '';
         return new Date(dateStr).toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
     };
+
+    if (isLoading) {
+        return (
+            <section id="projects" className="min-h-screen flex flex-col justify-center py-32 px-6">
+                <div className="flex flex-col items-center justify-center gap-4">
+                    <div className="w-8 h-8 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
+                    <span className="text-white/50 font-mono uppercase tracking-widest text-xs animate-pulse">Loading Projects...</span>
+                </div>
+            </section>
+        );
+    }
 
     return (
         <section id="projects" className="min-h-screen flex flex-col justify-center py-32 px-6">

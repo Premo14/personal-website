@@ -19,7 +19,7 @@ type Experience = {
 
 const ExperienceSection = () => {
     const [selectedExp, setSelectedExp] = useState<Experience | null>(null);
-    const { data: experiences } = useQuery({
+    const { data: experiences, isLoading } = useQuery({
         queryKey: ['experience'],
         queryFn: async () => {
             const res = await api.get('/public/experience');
@@ -39,11 +39,23 @@ const ExperienceSection = () => {
         company_link: ""
     };
 
-    const displayExperience = experiences && experiences.length > 0 ? experiences : [defaultExperience];
+    const displayExperience = !isLoading && experiences && experiences.length > 0 ? experiences : (isLoading ? [] : [defaultExperience]);
+
+    if (isLoading) {
+        return (
+            <section id="experience" className="min-h-screen flex flex-col justify-center py-32 px-6">
+                <div className="flex flex-col items-center justify-center gap-4">
+                    <div className="w-8 h-8 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
+                    <span className="text-white/50 font-mono uppercase tracking-widest text-xs animate-pulse">Loading Experience...</span>
+                </div>
+            </section>
+        );
+    }
 
     return (
         <section id="experience" className="min-h-screen flex flex-col justify-center py-32 px-6 relative">
-            <div className="absolute left-0 w-125 h-125 bg-white/5 blur-[120px] rounded-full pointer-events-none -translate-x-1/2"></div>
+            {/* Radial Gradient Glow (Replacing heavy blur filter) */}
+            <div className="absolute top-1/4 -left-1/4 w-125 h-125 bg-[radial-gradient(circle_at_center,var(--tw-gradient-stops))] from-white/5 to-transparent rounded-full pointer-events-none z-0"></div>
             
             <div className="max-w-5xl mx-auto w-full z-10">
                 <motion.div

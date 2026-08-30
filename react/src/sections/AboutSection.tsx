@@ -4,7 +4,7 @@ import api from '@/api/client';
 import { Terminal } from 'lucide-react';
 
 const AboutSection = () => {
-    const { data: aboutContent } = useQuery({
+    const { data: aboutContent, isLoading: isAboutLoading } = useQuery({
         queryKey: ['about'],
         queryFn: async () => {
             try {
@@ -16,13 +16,15 @@ const AboutSection = () => {
         }
     });
 
-    const { data: skills } = useQuery({
+    const { data: skills, isLoading: isSkillsLoading } = useQuery({
         queryKey: ['skills'],
         queryFn: async () => {
             const res = await api.get('/public/skills');
             return res.data;
         }
     });
+
+    const isLoading = isAboutLoading || isSkillsLoading;
 
     const defaultAbout = {
         title: "Who I Am",
@@ -31,7 +33,7 @@ const AboutSection = () => {
 
     // Check if aboutContent exists AND has actual content string
     const hasValidBio = aboutContent && aboutContent.content && aboutContent.content.trim().length > 0;
-    const displayAbout = hasValidBio ? aboutContent : defaultAbout;
+    const displayAbout = !isLoading && hasValidBio ? aboutContent : (isLoading ? {} : defaultAbout);
 
     const defaultSkills = [
         {
@@ -54,7 +56,18 @@ const AboutSection = () => {
         }
     ];
 
-    const displaySkills = skills && skills.length > 0 ? skills : defaultSkills;
+    const displaySkills = !isLoading && skills && skills.length > 0 ? skills : (isLoading ? [] : defaultSkills);
+
+    if (isLoading) {
+        return (
+            <section id="about" className="min-h-screen flex flex-col justify-center py-32 px-6 bg-black relative">
+                <div className="flex flex-col items-center justify-center gap-4 z-10">
+                    <div className="w-8 h-8 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
+                    <span className="text-white/50 font-mono uppercase tracking-widest text-xs animate-pulse">Loading About...</span>
+                </div>
+            </section>
+        );
+    }
 
     return (
         <section id="about" className="min-h-screen flex flex-col justify-center py-32 px-6 bg-black relative">

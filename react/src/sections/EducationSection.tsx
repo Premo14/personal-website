@@ -32,9 +32,18 @@ const EducationSection = () => {
         description: "This is a default education entry. It appears when no education is listed."
     };
 
-    const displayEducation = education && education.length > 0 ? education : [defaultEducation];
+    const displayEducation = !isLoading && education && education.length > 0 ? education : (isLoading ? [] : [defaultEducation]);
 
-    if (isLoading) return null;
+    if (isLoading) {
+        return (
+            <section id="education" className="min-h-screen flex flex-col justify-center py-32 px-6 bg-[#050505]">
+                <div className="flex flex-col items-center justify-center gap-4">
+                    <div className="w-8 h-8 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
+                    <span className="text-white/50 font-mono uppercase tracking-widest text-xs animate-pulse">Loading Education...</span>
+                </div>
+            </section>
+        );
+    }
 
     return (
         <section id="education" className="min-h-screen flex flex-col justify-center py-32 px-6 bg-[#050505]">

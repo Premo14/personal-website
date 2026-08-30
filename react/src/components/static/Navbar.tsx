@@ -42,7 +42,7 @@ export default function Navbar() {
     };
 
     return (
-        <nav className={`fixed w-full z-40 transition-all duration-500 ${scrolled ? 'bg-black/80 backdrop-blur-xl border-b border-white/5 py-4' : 'bg-transparent py-6'}`}>
+        <nav className={`fixed w-full z-40 transition-all duration-500 ${scrolled ? 'bg-black/95 border-b border-white/5 py-4' : 'bg-transparent py-6'}`}>
             <div className="w-full px-6 md:px-12 flex justify-between items-center text-white relative z-50">
                 <div
                     onClick={() => {
