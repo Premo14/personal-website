@@ -42,8 +42,12 @@
 }
 
 @layer base {
-  body {
+  html, body {
     @apply bg-background text-textPrimary font-sans antialiased;
+    overflow-x: hidden;
+  }
+  
+  #root {
     overflow-x: hidden;
   }
 

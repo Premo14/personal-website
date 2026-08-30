@@ -76,23 +76,23 @@ const ResumeAdmin = () => {
             <BlobProvider document={MyDoc}>
                 {({ blob, url, loading }) => (
                     <>
-                        <div className="flex justify-between items-center mb-6">
-                            <h1 className="text-3xl font-bold">Resume Generator</h1>
-                            <div className="flex gap-4 items-center">
+                        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 mb-6">
+                            <h1 className="text-3xl font-bold whitespace-nowrap">Resume Generator</h1>
+                            <div className="flex flex-row flex-wrap gap-2 sm:gap-4 items-stretch sm:items-center w-full lg:w-auto">
                                 {feedbackMsg && (
-                                    <span className={`text-sm font-bold ${feedbackMsg.type === 'success' ? 'text-green-400' : 'text-red-400'}`}>
+                                    <span className={`text-sm font-bold w-full ${feedbackMsg.type === 'success' ? 'text-green-400' : 'text-red-400'}`}>
                                         {feedbackMsg.text}
                                     </span>
                                 )}
 
-                                <PDFDownloadLink document={MyDoc} fileName="resume_apremo.pdf" className="flex items-center gap-2 bg-blue-600 px-4 py-2 rounded hover:bg-blue-500 font-bold transition">
+                                <PDFDownloadLink document={MyDoc} fileName="resume_apremo.pdf" className="flex-1 lg:flex-none flex items-center justify-center gap-2 bg-blue-600 px-4 py-3 sm:py-2 rounded hover:bg-blue-500 font-bold transition text-center text-white min-w-40">
                                     {loading ? 'Loading...' : <><Download size={20} /> Download PDF</>}
                                 </PDFDownloadLink>
 
                                 <button
                                     onClick={() => handleReplace(blob)}
                                     disabled={isReplacing || loading}
-                                    className="flex items-center gap-2 bg-red-600 px-4 py-2 rounded hover:bg-red-500 font-bold transition disabled:opacity-50"
+                                    className="flex-1 lg:flex-none flex items-center justify-center gap-2 bg-red-600 px-4 py-3 sm:py-2 rounded hover:bg-red-500 font-bold transition disabled:opacity-50 text-white min-w-50"
                                 >
                                     {isReplacing ? 'Uploading...' : <><Upload size={20} /> Replace Live Resume</>}
                                 </button>
@@ -105,16 +105,23 @@ const ResumeAdmin = () => {
                                 <p className="text-sm">This is a live preview based on your current website data.</p>
                             </div>
 
-                            <div className="flex-1 w-full h-full relative">
+                            <div className="flex-1 w-full h-full relative flex flex-col">
                                 {loading && <div className="absolute inset-0 flex items-center justify-center text-white">Generating PDF...</div>}
                                 {url && (
-                                    <iframe
-                                        src={`${url}#toolbar=0&navpanes=0&scrollbar=0`}
-                                        width="100%"
-                                        height="100%"
-                                        className="rounded border-none w-full h-full"
-                                        title="Resume Preview"
-                                    />
+                                    <>
+                                        {/* Mobile Fallback Link */}
+                                        <div className="md:hidden p-4 mb-4 bg-blue-900/20 border border-blue-500/30 rounded text-center">
+                                            <p className="text-sm text-blue-200 mb-2">Mobile PDF preview may be cut off.</p>
+                                            <a href={url} target="_blank" rel="noreferrer" className="text-blue-400 font-bold underline">Open PDF Fullscreen</a>
+                                        </div>
+                                        <iframe
+                                            src={`${url}#toolbar=0&navpanes=0&scrollbar=0`}
+                                            width="100%"
+                                            height="100%"
+                                            className="rounded border-none w-full h-full min-h-[60vh] flex-1"
+                                            title="Resume Preview"
+                                        />
+                                    </>
                                 )}
                             </div>
                         </div>

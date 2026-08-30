@@ -18,7 +18,7 @@ const HeroSection = () => {
     if (!hero) return null;
 
     return (
-        <section id="hero" className="min-h-screen flex items-center justify-center relative px-6 w-full">
+        <section id="hero" className="min-h-screen flex items-center justify-center relative px-6 w-full overflow-hidden">
             {/* Grid Background */}
             <div className="absolute inset-0 grid-bg z-0 pointer-events-none opacity-40" />
 
