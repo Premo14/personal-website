@@ -13,6 +13,8 @@ type Project = {
     demo_link: string;
     github_link: string;
     featured: boolean;
+    show_on_resume: boolean;
+    order_index: number;
     start_date: string;
     end_date: string | null;
     is_personal: boolean;
@@ -29,6 +31,8 @@ type ProjectFormData = {
     demo_link: string;
     github_link: string;
     featured: boolean;
+    show_on_resume: boolean;
+    order_index: number;
     start_date: string;
     end_date: string;
     is_current: boolean;
@@ -125,6 +129,8 @@ const ProjectsAdmin = () => {
             demo_link: '',
             github_link: '',
             featured: false,
+            show_on_resume: true,
+            order_index: 0,
             technologies: [{ value: '' }],
             start_date: '',
             end_date: '',
@@ -152,6 +158,8 @@ const ProjectsAdmin = () => {
         setValue('demo_link', proj.demo_link);
         setValue('github_link', proj.github_link);
         setValue('featured', proj.featured);
+        setValue('show_on_resume', proj.show_on_resume ?? true);
+        setValue('order_index', proj.order_index ?? 0);
         setValue('is_personal', proj.is_personal);
         setValue('overview', proj.overview);
 
@@ -181,9 +189,9 @@ const ProjectsAdmin = () => {
             {/* List */}
             <div className="mb-8 space-y-4">
                 {projects?.map((proj: Project) => (
-                    <div key={proj.ID} className="bg-gray-800 p-4 rounded flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border border-gray-700">
+                    <div key={proj.ID} className="bg-[#050505] border border-white/10 p-4 rounded flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                         <div className="flex-1 w-full min-w-0">
-                            <h3 className="font-bold text-xl text-brand truncate">{proj.title} {proj.is_personal && <span className="text-xs bg-gray-600 px-2 py-0.5 rounded ml-2 text-white">Personal</span>}</h3>
+                            <h3 className="font-bold text-xl text-white truncate">{proj.title} {proj.is_personal && <span className="text-xs bg-gray-600 px-2 py-0.5 rounded ml-2 text-white">Personal</span>}</h3>
                             <p className="text-sm text-gray-400 truncate md:max-w-2xl">{proj.short_description}</p>
                             {proj.experience && (
                                 <p className="text-xs text-gray-400 mt-1">Exp: {proj.experience.company}</p>
@@ -198,7 +206,7 @@ const ProjectsAdmin = () => {
             </div>
 
             {/* Form */}
-            <div className="bg-gray-800 p-6 rounded-lg border border-gray-700 shadow-xl">
+            <div className="bg-[#050505] border border-white/10 p-6 rounded-lg shadow-xl">
                 <div className="flex justify-between items-center mb-6">
                     <h2 className="text-2xl font-bold">{editingId ? 'Edit Project' : 'Add New Project'}</h2>
                     {editingId && <button onClick={resetForm}><X className="text-gray-400 hover:text-white" /></button>}
@@ -235,9 +243,9 @@ const ProjectsAdmin = () => {
                         <div className="flex flex-col">
                             <label className="block text-sm text-gray-400 mb-1">End Date</label>
                             <div className="flex gap-2 items-center flex-wrap">
-                                <input type="date" {...register('end_date')} disabled={isCurrent} className={`flex-1 p-2 bg-gray-900 rounded border border-gray-700 focus:border-brand outline-none min-w-[140px] ${isCurrent ? 'opacity-50 cursor-not-allowed' : ''}`} />
+                                <input type="date" {...register('end_date')} disabled={isCurrent} className={`flex-1 p-2 bg-gray-900 rounded border border-gray-700 focus:border-brand outline-none min-w-35 ${isCurrent ? 'opacity-50 cursor-not-allowed' : ''}`} />
                                 <div className="flex items-center gap-2 whitespace-nowrap shrink-0">
-                                    <input type="checkbox" {...register('is_current')} id="is_current" className="w-5 h-5 rounded bg-gray-900 border-gray-700 text-brand focus:ring-brand cursor-pointer" />
+                                    <input type="checkbox" {...register('is_current')} id="is_current" className="w-5 h-5 rounded bg-gray-900 border-gray-700 text-white focus:ring-brand cursor-pointer" />
                                     <label htmlFor="is_current" className="text-white select-none cursor-pointer">Present</label>
                                 </div>
                             </div>
@@ -279,21 +287,29 @@ const ProjectsAdmin = () => {
                                         <button type="button" onClick={() => removeTech(index)} className="p-2 text-red-500 hover:bg-gray-700 rounded"><Trash size={16} /></button>
                                     </div>
                                 ))}
-                                <button type="button" onClick={() => appendTech({ value: '' })} className="flex items-center gap-1 text-sm text-brand hover:underline">
+                                <button type="button" onClick={() => appendTech({ value: '' })} className="flex items-center gap-1 text-sm text-white hover:underline">
                                     <Plus size={14} /> Add Technology
                                 </button>
                             </div>
                         </div>
                     </div>
 
-                    <div className="flex gap-6">
+                    <div className="flex flex-wrap gap-6 items-center">
                         <div className="flex items-center gap-2">
-                            <input type="checkbox" {...register('featured')} id="featured" className="w-4 h-4 rounded bg-gray-900 border-gray-700 text-brand focus:ring-brand" />
-                            <label htmlFor="featured" className="text-white select-none">Featured Project</label>
+                            <input type="checkbox" {...register('featured')} id="featured" className="w-4 h-4 rounded bg-gray-900 border-gray-700 text-white focus:ring-brand" />
+                            <label htmlFor="featured" className="text-white select-none">Featured Project (Website)</label>
                         </div>
                         <div className="flex items-center gap-2">
-                            <input type="checkbox" {...register('is_personal')} id="is_personal" className="w-4 h-4 rounded bg-gray-900 border-gray-700 text-brand focus:ring-brand" />
+                            <input type="checkbox" {...register('show_on_resume')} id="show_on_resume" className="w-4 h-4 rounded bg-gray-900 border-gray-700 text-white focus:ring-brand" />
+                            <label htmlFor="show_on_resume" className="text-white select-none">Show on Resume</label>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <input type="checkbox" {...register('is_personal')} id="is_personal" className="w-4 h-4 rounded bg-gray-900 border-gray-700 text-white focus:ring-brand" />
                             <label htmlFor="is_personal" className="text-white select-none">Personal Project</label>
+                        </div>
+                        <div className="flex items-center gap-2 ml-auto">
+                            <label className="text-sm text-gray-400">Resume Order:</label>
+                            <input type="number" {...register('order_index', { valueAsNumber: true })} className="w-20 p-2 bg-gray-900 rounded border border-gray-700 focus:border-brand outline-none text-white" />
                         </div>
                     </div>
 
@@ -303,7 +319,7 @@ const ProjectsAdmin = () => {
                                 Cancel
                             </button>
                         )}
-                        <button type="submit" className="px-6 py-3 bg-brand text-black font-bold rounded-lg hover:bg-yellow-500 transition shadow-lg shadow-brand/20">
+                        <button type="submit" className="px-6 py-3 bg-white text-black font-bold rounded-lg hover:bg-gray-200 transition shadow-lg shadow-brand/20">
                             {editingId ? 'Update Project' : 'Create Project'}
                         </button>
                     </div>

@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
 import api from '@/api/client';
 import { Link } from 'react-scroll';
+import { ArrowRight, FileText } from 'lucide-react';
 
 const HeroSection = () => {
     const { data: hero } = useQuery({
@@ -17,57 +18,83 @@ const HeroSection = () => {
     if (!hero) return null;
 
     return (
-        <section id="hero" className="min-h-screen flex items-center justify-center relative overflow-hidden px-4">
-            {/* Background enhancement */}
-            <div className="absolute inset-0 bg-linear-to-br from-gray-900 to-black z-0" />
+        <section id="hero" className="min-h-screen flex items-center justify-center relative px-6 w-full">
+            {/* Grid Background */}
+            <div className="absolute inset-0 grid-bg z-0 pointer-events-none opacity-40" />
+
+            {/* Glowing Accent */}
+            <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-150 h-100 bg-white/5 rounded-full blur-[100px] pointer-events-none z-0" />
 
             {/* Animated content */}
             <motion.div
-                className="z-10 text-center max-w-4xl"
-                initial={{ opacity: 0, y: 30 }}
+                className="z-10 w-full max-w-5xl flex flex-col items-start"
+                initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
+                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             >
-                <h1 className="text-5xl md:text-8xl font-extrabold text-transparent bg-clip-text bg-linear-to-r from-white via-gray-200 to-gray-400 mb-6 tracking-tight">
-                    {hero.title || "Hello, I'm Anthony"}
-                </h1>
-                <h2 className="text-2xl md:text-4xl text-brand font-light mb-8">
-                    {hero.subtitle || "Full Stack Engineer"}
-                </h2>
+                <motion.div 
+                    initial={{ opacity: 0, x: -20 }} 
+                    animate={{ opacity: 1, x: 0 }} 
+                    transition={{ delay: 0.2, duration: 0.6 }}
+                    className="flex items-center gap-3 mb-6"
+                >
+                    <span className="h-px w-12 bg-white/50"></span>
+                    <span className="text-sm font-mono tracking-widest text-textMuted uppercase">
+                        {hero.subtitle || "Platform Engineer"}
+                    </span>
+                </motion.div>
 
-                <div className="flex justify-center gap-6">
+                <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-[7rem] font-black tracking-tighter text-white leading-[1.1] mb-8 font-display">
+                    {hero.title?.split(' ').map((word: string, i: number) => (
+                        <span key={i} className="block hover:text-gray-300 transition-colors duration-300 cursor-default">
+                            {word}
+                        </span>
+                    )) || (
+                        <>
+                            <span className="block hover:text-gray-300 transition-colors duration-300 cursor-default">Building</span>
+                            <span className="block hover:text-gray-300 transition-colors duration-300 cursor-default">Digital</span>
+                            <span className="block hover:text-gray-300 transition-colors duration-300 cursor-default text-gray-500">Systems.</span>
+                        </>
+                    )}
+                </h1>
+
+                <motion.div 
+                    className="flex flex-wrap gap-4 mt-8"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.4, duration: 0.6 }}
+                >
                     <Link
                         to="projects"
                         smooth={true}
                         duration={800}
                         offset={-80}
-                        className="cursor-pointer px-8 py-4 bg-brand text-black font-bold rounded-full text-lg shadow-[0_0_20px_rgba(255,215,0,0.3)] hover:shadow-[0_0_30px_rgba(255,215,0,0.5)] transform hover:-translate-y-1 transition-all"
+                        className="group flex items-center gap-2 px-8 py-4 bg-white text-black font-semibold rounded-none text-sm tracking-wide uppercase hover:bg-gray-200 transition-all duration-300 cursor-pointer"
                     >
-                        {hero.cta_text || "View My Work"}
+                        {hero.cta_text || "View Work"}
+                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </Link>
                     <a
                         href={resumeUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="cursor-pointer px-8 py-4 bg-transparent border-2 border-white/20 text-white font-bold rounded-full text-lg hover:bg-white/10 hover:border-white/40 transition-all"
+                        className="group flex items-center gap-2 px-8 py-4 bg-transparent border border-white/20 text-white font-semibold rounded-none text-sm tracking-wide uppercase hover:bg-white/10 transition-all duration-300"
                     >
+                        <FileText className="w-4 h-4 group-hover:-translate-y-0.5 transition-transform" />
                         Resume
                     </a>
-                </div>
+                </motion.div>
             </motion.div>
 
             {/* Scroll Indicator */}
             <motion.div
-                className="absolute bottom-10 left-1/2 -translate-x-1/2 text-white/50"
-                animate={{ y: [0, 10, 0] }}
-                transition={{ repeat: Infinity, duration: 2 }}
+                className="absolute bottom-8 left-6 text-white/40 flex items-center gap-4"
+                animate={{ opacity: [0.3, 1, 0.3] }}
+                transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
             >
-                <div className="w-6 h-10 border-2 border-current rounded-full flex justify-center p-1">
-                    <div className="w-1 h-3 bg-current rounded-full" />
-                </div>
+                <span className="text-xs font-mono uppercase tracking-[0.2em] origin-left -rotate-90 -translate-y-10">Scroll</span>
+                <div className="w-px h-16 bg-linear-to-b from-white/0 via-white/50 to-white/0" />
             </motion.div>
-
-
         </section>
     );
 };

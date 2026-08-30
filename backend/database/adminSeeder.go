@@ -65,8 +65,3 @@ func SeedHero(db *gorm.DB) {
 		log.Println("Hero section initialized.")
 	}
 }
-
-// SeedContent is a placeholder for future content seeding.
-// Currently left empty as content is managed dynamically via the Admin Panel.
-func SeedContent(db *gorm.DB) {
-}

@@ -38,7 +38,6 @@ const App = () => {
           <Route path="education" element={<EducationAdmin />} />
           <Route path="projects" element={<ProjectsAdmin />} />
           <Route path="resume" element={<ResumeAdmin />} />
-          {/* Add other admin routes here later */}
         </Route>
       </Routes>
     </Router>

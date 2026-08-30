@@ -60,7 +60,7 @@ const AboutAdmin = () => {
             )}
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 max-w-2xl">
-                <div className="bg-gray-800 p-6 rounded-lg space-y-4">
+                <div className="bg-[#050505] border border-white/10 p-6 rounded-lg space-y-4">
                     <div>
                         <label className="block text-sm font-medium text-gray-400 mb-2">Professional Title / Tagline</label>
                         <input
@@ -84,7 +84,7 @@ const AboutAdmin = () => {
                     <button
                         type="submit"
                         disabled={mutation.isPending}
-                        className="bg-brand text-black font-bold px-6 py-2 rounded hover:bg-yellow-500 transition disabled:opacity-50"
+                        className="bg-white text-black text-black font-bold px-6 py-2 rounded hover:bg-gray-200 transition disabled:opacity-50"
                     >
                         {mutation.isPending ? 'Saving...' : 'Save Changes'}
                     </button>

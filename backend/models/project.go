@@ -44,6 +44,8 @@ type Project struct {
 	StartDate        time.Time       `json:"start_date"`
 	EndDate          *time.Time      `json:"end_date"`
 	Featured         bool            `json:"featured"`
+	ShowOnResume     bool            `json:"show_on_resume" gorm:"default:true"`
+	OrderIndex       int             `json:"order_index" gorm:"default:0"`
 	IsPersonal       bool            `json:"is_personal" gorm:"default:false"`
 	Overview         string          `json:"overview" gorm:"type:text"`
 	// Belongs To Relationship

@@ -28,7 +28,7 @@ const Dashboard = () => {
             <h1 className="text-4xl font-bold text-white mb-6">Dashboard</h1>
             <p className="text-gray-400 mb-8">Welcome to the content management system.</p>
 
-            <div className="bg-gray-800 p-6 rounded-lg max-w-md">
+            <div className="bg-[#050505] border border-white/10 p-6 rounded-lg max-w-md">
                 <h2 className="text-xl font-bold text-white mb-4">Update Resume (PDF)</h2>
                 <input
                     type="file"
@@ -39,7 +39,7 @@ const Dashboard = () => {
                       file:mr-4 file:py-2 file:px-4
                       file:rounded-full file:border-0
                       file:text-sm file:font-semibold
-                      file:bg-brand file:text-black
+                      file:bg-white text-black file:text-black
                       hover:file:bg-yellow-500
                     "
                 />

@@ -25,10 +25,10 @@ func SetupRoutes(app *fiber.App) {
 	admin := api.Group("/admin", middleware.Protected())
 
 	// Hero
-	admin.Post("/hero", controllers.UpdateHero) // Upsert
+	admin.Post("/hero", controllers.UpdateHero)
 
 	// About
-	admin.Post("/about", controllers.UpdateAboutMe) // Upsert
+	admin.Post("/about", controllers.UpdateAboutMe)
 
 	// Skills
 	admin.Post("/skills", controllers.CreateSkill)

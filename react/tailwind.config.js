@@ -44,6 +44,5 @@ export default {
   },
   plugins: [
     scrollbar({ nocompatible: true }),
-    // require('@tailwindcss/typography'), // Would be good for prose in modals
   ],
 }

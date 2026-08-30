@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import api from '@/api/client';
 import { useState } from 'react';
 import Modal from '@/components/ui/Modal';
-import { ExternalLink } from 'lucide-react';
+import { ExternalLink, Star } from 'lucide-react';
 import { FaGithub } from 'react-icons/fa';
 
 type Project = {
@@ -21,22 +21,21 @@ type Project = {
     experience?: { company: string } | null;
 };
 
-// Deterministic gradient based on string
-const getGradient = (str: string) => {
-    const gradients = [
-        'from-blue-600 to-indigo-900',
-        'from-emerald-500 to-teal-900',
-        'from-orange-500 to-red-900',
-        'from-purple-500 to-pink-900',
-        'from-cyan-500 to-blue-900',
-        'from-pink-500 to-rose-900',
+// Deterministic monochromatic pattern based on string
+const getPatternClass = (str: string) => {
+    const patterns = [
+        'bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-800 to-black',
+        'bg-linear-to-br from-gray-900 to-black',
+        'bg-linear-to-tl from-gray-800 to-black',
+        'bg-linear-to-t from-gray-900 via-black to-black',
+        'bg-linear-to-r from-black via-gray-900 to-black',
     ];
     let hash = 0;
     for (let i = 0; i < str.length; i++) {
         hash = str.charCodeAt(i) + ((hash << 5) - hash);
     }
-    const index = Math.abs(hash) % gradients.length;
-    return gradients[index];
+    const index = Math.abs(hash) % patterns.length;
+    return patterns[index];
 };
 
 const ProjectsSection = () => {
@@ -71,72 +70,74 @@ const ProjectsSection = () => {
     };
 
     return (
-        <section id="projects" className="min-h-screen flex flex-col justify-center py-20 px-4">
+        <section id="projects" className="min-h-screen flex flex-col justify-center py-32 px-6">
             <div className="max-w-7xl mx-auto w-full">
-                <motion.h2
-                    className="text-4xl md:text-5xl font-bold text-white mb-16 text-center"
+                <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6"
                 >
-                    Featured Projects
-                </motion.h2>
+                    <div>
+                        <h2 className="text-5xl md:text-6xl font-black text-white tracking-tighter font-display mb-2">
+                            Projects<span className="text-gray-600">.</span>
+                        </h2>
+                        <p className="text-gray-400 font-mono text-sm uppercase tracking-widest">Selected Works</p>
+                    </div>
+                    <div className="h-px flex-1 bg-white/10 hidden md:block mb-4 ml-8"></div>
+                </motion.div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {displayProjects?.map((project: Project, index: number) => (
                         <motion.div
                             key={project.ID}
                             initial={{ opacity: 0, y: 30 }}
                             whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: index * 0.1 }}
+                            viewport={{ once: true, margin: "-50px" }}
+                            transition={{ delay: index * 0.1, duration: 0.5 }}
                             onClick={() => setSelectedProject(project)}
-                            className="bg-gray-800 rounded-xl overflow-hidden cursor-pointer hover:transform hover:-translate-y-2 transition-all duration-300 shadow-xl hover:shadow-2xl hover:shadow-brand/10 border border-gray-700/50 hover:border-brand/40 group relative flex flex-col h-full"
+                            className="bg-black border border-white/10 overflow-hidden cursor-pointer group flex flex-col h-full hover:border-white/30 transition-all duration-300 relative"
                         >
                             {/* Star for Featured */}
                             {project.featured && (
-                                <div className="absolute top-4 right-4 z-20 text-yellow-500 bg-gray-900/80 p-1.5 rounded-full shadow-lg border border-yellow-500/20">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
-                                        <path fillRule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z" clipRule="evenodd" />
-                                    </svg>
+                                <div className="absolute top-4 right-4 z-20 text-white bg-black/80 p-2 rounded-full border border-white/20 backdrop-blur-md">
+                                    <Star className="w-4 h-4 fill-white" />
                                 </div>
                             )}
 
-                            <div className="h-48 bg-gray-700 overflow-hidden relative group shrink-0">
-                                <div className={`h-48 flex flex-col items-center justify-center p-6 text-center transition-colors duration-500 bg-linear-to-br ${getGradient(project.title)}`}>
-                                    <div className="bg-black/20 p-3 rounded-full mb-3 backdrop-blur-sm">
-                                        <ExternalLink size={24} className="text-white" />
-                                    </div>
-                                    <h4 className="text-xl font-bold text-white drop-shadow-md">{project.title}</h4>
+                            <div className="h-48 overflow-hidden relative shrink-0 border-b border-white/5">
+                                <div className={`absolute inset-0 transition-transform duration-700 group-hover:scale-105 ${getPatternClass(project.title)}`}></div>
+                                <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center z-10">
+                                    <h4 className="text-2xl font-bold text-white tracking-tight drop-shadow-md">{project.title}</h4>
                                 </div>
-                                <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                    <span className="text-white font-bold px-4 py-2 border border-white rounded-full">View Details</span>
+                                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-20 backdrop-blur-sm">
+                                    <span className="text-white font-mono text-xs uppercase tracking-widest border-b border-white pb-1">View Details</span>
                                 </div>
                             </div>
-                            <div className="p-6 flex flex-col grow">
-                                <div className="flex justify-between items-start mb-2">
-                                    <h3 className="text-2xl font-bold text-white group-hover:text-brand transition-colors">{project.title}</h3>
+                            <div className="p-6 flex flex-col grow bg-[#050505]">
+                                <div className="flex justify-between items-start mb-4">
+                                    <h3 className="text-xl font-bold text-white group-hover:text-gray-300 transition-colors tracking-tight">{project.title}</h3>
                                     {project.start_date && (
-                                        <span className="text-xs text-brand font-mono border border-brand/30 bg-brand/10 px-2 py-1 rounded whitespace-nowrap ml-2">
+                                        <span className="text-[10px] text-gray-500 font-mono uppercase tracking-wider ml-2 shrink-0 pt-1">
                                             {formatDate(project.start_date)} - {project.end_date ? formatDate(project.end_date) : 'Present'}
                                         </span>
                                     )}
                                 </div>
                                 {project.experience && (
-                                    <div className="text-xs text-gray-400 mb-2">
-                                        <span className="opacity-70">via </span>
-                                        <span className="text-gray-200 font-semibold">{project.experience.company}</span>
+                                    <div className="text-xs text-gray-500 mb-4 font-mono uppercase tracking-widest border-l-2 border-gray-800 pl-2">
+                                        <span className="opacity-60">via </span>
+                                        <span className="text-gray-300">{project.experience.company}</span>
                                     </div>
                                 )}
-                                <p className="text-gray-400 mb-4 line-clamp-3 text-sm">{project.overview || project.short_description}</p>
-                                <div className="flex flex-wrap gap-2">
-                                    {project.technologies?.slice(0, 3).map((tech) => (
-                                        <span key={tech} className="text-xs bg-gray-900 text-gray-300 px-2 py-1 rounded">
+                                <p className="text-gray-400 mb-6 line-clamp-3 text-sm leading-relaxed">{project.overview || project.short_description}</p>
+                                <div className="flex flex-wrap gap-2 mt-auto pt-4 border-t border-white/5">
+                                    {project.technologies?.slice(0, 4).map((tech) => (
+                                        <span key={tech} className="text-[10px] uppercase tracking-wider bg-white/5 text-gray-300 px-2 py-1 rounded-sm border border-white/5">
                                             {tech}
                                         </span>
                                     ))}
-                                    {project.technologies?.length > 3 && (
-                                        <span className="text-xs text-gray-500 px-2 py-1">+{project.technologies.length - 3}</span>
+                                    {project.technologies?.length > 4 && (
+                                        <span className="text-[10px] uppercase tracking-wider text-gray-500 px-2 py-1">+{project.technologies.length - 4}</span>
                                     )}
                                 </div>
                             </div>
@@ -150,17 +151,34 @@ const ProjectsSection = () => {
                 onClose={() => setSelectedProject(null)}
                 title={selectedProject?.title}
             >
-                <div className="space-y-6">
+                <div className="space-y-8 p-2">
+                    {/* Full Description */}
+                    <div className="prose prose-invert max-w-none">
+                        <p className="text-gray-300 leading-relaxed whitespace-pre-line">{selectedProject?.description}</p>
+                    </div>
+
+                    {/* Tech Stack */}
+                    <div>
+                        <h4 className="text-white font-mono text-xs uppercase tracking-widest mb-4 border-b border-white/10 pb-2">Technologies</h4>
+                        <div className="flex flex-wrap gap-2">
+                            {selectedProject?.technologies?.map((tech) => (
+                                <span key={tech} className="text-xs font-mono bg-white/5 text-gray-300 px-3 py-1.5 rounded-sm border border-white/10">
+                                    {tech}
+                                </span>
+                            ))}
+                        </div>
+                    </div>
+
                     {/* Links */}
-                    <div className="flex gap-4">
+                    <div className="flex gap-4 pt-4">
                         {selectedProject?.github_link && (
                             <a
                                 href={selectedProject.github_link}
                                 target="_blank"
                                 rel="noreferrer"
-                                className="flex items-center gap-2 px-4 py-2 bg-gray-800 rounded hover:bg-gray-700 text-white transition"
+                                className="flex items-center gap-2 px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/20 text-white transition-all text-sm font-semibold tracking-wide uppercase"
                             >
-                                <FaGithub size={20} /> GitHub
+                                <FaGithub size={18} /> Source
                             </a>
                         )}
                         {selectedProject?.demo_link && (
@@ -168,28 +186,11 @@ const ProjectsSection = () => {
                                 href={selectedProject.demo_link}
                                 target="_blank"
                                 rel="noreferrer"
-                                className="flex items-center gap-2 px-4 py-2 bg-brand text-black font-bold rounded hover:bg-yellow-600 transition"
+                                className="flex items-center gap-2 px-6 py-3 bg-white text-black hover:bg-gray-200 transition-all text-sm font-semibold tracking-wide uppercase"
                             >
-                                <ExternalLink size={20} /> Live Demo
+                                <ExternalLink size={18} /> Live Demo
                             </a>
                         )}
-                    </div>
-
-                    {/* Full Description */}
-                    <div className="prose prose-invert max-w-none">
-                        <p className="text-gray-300 whitespace-pre-line">{selectedProject?.description}</p>
-                    </div>
-
-                    {/* Tech Stack */}
-                    <div>
-                        <h4 className="text-white font-bold mb-2">Technologies</h4>
-                        <div className="flex flex-wrap gap-2">
-                            {selectedProject?.technologies?.map((tech) => (
-                                <span key={tech} className="text-sm bg-gray-800 text-brand px-3 py-1 rounded-full border border-gray-700">
-                                    {tech}
-                                </span>
-                            ))}
-                        </div>
                     </div>
                 </div>
             </Modal>

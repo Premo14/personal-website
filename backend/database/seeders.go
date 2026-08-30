@@ -11,8 +11,6 @@ func SeedDB(db *gorm.DB) {
 
 	SeedLocalContent(db) // Seed from local template
 	SeedAdmin(db)        // Ensure admin user exists
-	// SeedHero(db)      // Covered by local content
-	// SeedContent(db)   // Covered by local content
 
 	log.Println("Seeding process completed!")
 }

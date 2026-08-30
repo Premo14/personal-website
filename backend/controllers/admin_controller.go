@@ -19,14 +19,12 @@ func CreateEntity(model interface{}) fiber.Handler {
 	}
 }
 
-// Implement specific Admin handlers for clearer routing and slight custom logic if needed
 
 func UpdateHero(c *fiber.Ctx) error {
 	var hero models.HeroSection
 	if err := c.BodyParser(&hero); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
 	}
-	// Upsert: simpler for single-instance models like Hero
 	var count int64
 	database.DB.Model(&models.HeroSection{}).Count(&count)
 	if count == 0 {

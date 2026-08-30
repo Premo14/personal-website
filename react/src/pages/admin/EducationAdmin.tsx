@@ -104,9 +104,9 @@ const EducationAdmin = () => {
             {/* List */}
             <div className="mb-8 space-y-4">
                 {education?.map((item: Education) => (
-                    <div key={item.ID} className="bg-gray-800 p-4 rounded flex flex-col md:flex-row justify-between items-start md:items-center border border-gray-700 gap-4">
+                    <div key={item.ID} className="bg-[#050505] border border-white/10 p-4 rounded flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                         <div className="flex-1">
-                            <h3 className="font-bold text-xl text-brand">{item.institution}</h3>
+                            <h3 className="font-bold text-xl text-white">{item.institution}</h3>
                             <p className="text-white font-medium">{item.title} <span className="text-sm text-gray-400">({item.type})</span></p>
                         </div>
                         <div className="flex gap-2 w-full md:w-auto">
@@ -118,7 +118,7 @@ const EducationAdmin = () => {
             </div>
 
             {/* Form */}
-            <div className="bg-gray-800 p-6 rounded-lg border border-gray-700 shadow-xl">
+            <div className="bg-[#050505] border border-white/10 p-6 rounded-lg shadow-xl">
                 <h2 className="text-2xl font-bold mb-4">{editingId ? 'Edit Education' : 'Add New Education'}</h2>
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -150,9 +150,9 @@ const EducationAdmin = () => {
                         <div>
                             <label className="block text-sm text-gray-400 mb-1">End Date</label>
                             <div className="flex gap-2 items-center flex-wrap">
-                                <input type="date" {...register('end_date')} disabled={isCurrent} className={`flex-1 w-full p-2 bg-gray-900 rounded border border-gray-700 focus:border-brand outline-none min-w-[140px] ${isCurrent ? 'opacity-50' : ''}`} />
+                                <input type="date" {...register('end_date')} disabled={isCurrent} className={`flex-1 w-full p-2 bg-gray-900 rounded border border-gray-700 focus:border-brand outline-none min-w-35 ${isCurrent ? 'opacity-50' : ''}`} />
                                 <div className="flex items-center gap-2 whitespace-nowrap shrink-0">
-                                    <input type="checkbox" {...register('is_current')} id="is_current_edu" className="w-5 h-5 rounded bg-gray-900 border-gray-700 text-brand focus:ring-brand cursor-pointer" />
+                                    <input type="checkbox" {...register('is_current')} id="is_current_edu" className="w-5 h-5 rounded bg-gray-900 border-gray-700 text-white focus:ring-brand cursor-pointer" />
                                     <label htmlFor="is_current_edu" className="text-sm cursor-pointer select-none">Current</label>
                                 </div>
                             </div>
@@ -166,7 +166,7 @@ const EducationAdmin = () => {
 
                     <div className="flex justify-end gap-2 pt-4">
                         {editingId && <button type="button" onClick={() => { setEditingId(null); reset(); }} className="px-4 py-2 bg-gray-700 text-gray-300 rounded hover:bg-gray-600">Cancel</button>}
-                        <button type="submit" className="px-6 py-2 bg-brand text-black font-bold rounded hover:bg-yellow-500 shadow-lg shadow-brand/20">
+                        <button type="submit" className="px-6 py-2 bg-white text-black font-bold rounded hover:bg-gray-200 shadow-lg shadow-brand/20">
                             {editingId ? 'Update' : 'Add'}
                         </button>
                     </div>

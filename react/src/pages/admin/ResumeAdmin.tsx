@@ -16,11 +16,15 @@ const ResumeAdmin = () => {
     const { data: education } = useQuery({ queryKey: ['education'], queryFn: async () => (await api.get('/public/education')).data || [] });
 
     // Define the component instance once to reuse
+    const resumeProjects = (projects || [])
+        .filter((p: any) => p.show_on_resume)
+        .sort((a: any, b: any) => a.order_index - b.order_index);
+
     const MyDoc = (
         <ResumePDF
             skills={skills || []}
             experience={experience || []}
-            projects={projects || []}
+            projects={resumeProjects}
             education={education || []}
         />
     );
@@ -95,7 +99,7 @@ const ResumeAdmin = () => {
                             </div>
                         </div>
 
-                        <div className="bg-gray-800 p-4 rounded-lg flex-1 min-h-[600px] border border-gray-700 flex flex-col">
+                        <div className="bg-[#050505] border border-white/10 p-4 rounded-lg flex-1 min-h-150 flex flex-col">
                             <div className="flex items-center gap-2 mb-4 text-yellow-400 bg-yellow-400/10 p-3 rounded">
                                 <AlertTriangle size={20} />
                                 <p className="text-sm">This is a live preview based on your current website data.</p>

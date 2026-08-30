@@ -66,7 +66,7 @@ const SkillsAdmin = () => {
         return (
             <form onSubmit={handleSubmit((d) => createCategory.mutate(d.name))} className="flex gap-2">
                 <input {...register('name')} placeholder="Category Name" className="bg-gray-700 text-white px-2 py-1 rounded" autoFocus />
-                <button type="submit" className="text-brand">Save</button>
+                <button type="submit" className="text-white">Save</button>
                 <button type="button" onClick={() => setIsAddingCategory(false)} className="text-gray-400">Cancel</button>
             </form>
         );
@@ -84,7 +84,7 @@ const SkillsAdmin = () => {
                 />
                 <div className="flex justify-end gap-2">
                     <button type="button" onClick={() => setIsAddingSkill(null)} className="px-3 py-1 text-gray-400 text-sm hover:text-white transition">Cancel</button>
-                    <button type="submit" className="px-4 py-1.5 bg-brand text-black rounded text-sm font-bold hover:bg-yellow-500 transition">Save</button>
+                    <button type="submit" className="px-4 py-1.5 bg-white text-black rounded text-sm font-bold hover:bg-gray-200 transition">Save</button>
                 </div>
             </form>
         );
@@ -96,23 +96,23 @@ const SkillsAdmin = () => {
                 <h1 className="text-3xl font-bold text-white">Manage Skills</h1>
                 <button
                     onClick={() => setIsAddingCategory(true)}
-                    className="flex items-center gap-2 bg-brand text-black px-4 py-2 rounded hover:bg-yellow-500 font-bold"
+                    className="flex items-center gap-2 bg-white text-black px-4 py-2 rounded hover:bg-gray-200 font-bold"
                 >
                     <Plus size={20} /> New Category
                 </button>
             </div>
 
             {isAddingCategory && (
-                <div className="bg-gray-800 p-4 rounded mb-6">
+                <div className="bg-[#050505] border border-white/10 p-4 rounded mb-6">
                     <AddCategoryForm />
                 </div>
             )}
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {categories?.map((cat: SkillCategory) => (
-                    <div key={cat.ID} className="bg-gray-800 p-6 rounded-lg border border-gray-700">
+                    <div key={cat.ID} className="bg-[#050505] border border-white/10 p-6 rounded-lg">
                         <div className="flex justify-between items-center mb-4 border-b border-gray-700 pb-2">
-                            <h2 className="text-xl font-bold text-brand">{cat.name}</h2>
+                            <h2 className="text-xl font-bold text-white">{cat.name}</h2>
                             <button onClick={() => deleteCategory.mutate(cat.ID)} className="text-gray-500 hover:text-red-400">
                                 <Trash size={18} />
                             </button>

@@ -5,7 +5,7 @@ export type PortfolioProject = {
     description: string;
     sourceLink?: string;
     liveLink?: string;
-    publishedAt?: string; // ISO
+    publishedAt?: string;
     featured?: boolean;
     thumbnail?: string;
     createdAt?: string;

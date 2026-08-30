@@ -31,9 +31,9 @@ func UploadResume(c *fiber.Ctx) error {
 		for _, entry := range entries {
 			if !entry.IsDir() {
 				name := entry.Name()
-				lowerName := filepath.Base(name) // It's just the name
+				lowerName := filepath.Base(name)
 				if (len(lowerName) >= 7 && lowerName[:7] == "resume_" || len(lowerName) >= 7 && lowerName[:7] == "Resume_") && filepath.Ext(name) == ".pdf" {
-					if name != "resume_apremo.pdf" { // Keep the current one if it exists, though we'll overwrite it anyway
+					if name != "resume_apremo.pdf" {
 						os.Remove(filepath.Join("./uploads", name))
 					}
 				}

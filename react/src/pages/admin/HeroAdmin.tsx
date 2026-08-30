@@ -53,7 +53,7 @@ const HeroAdmin = () => {
     return (
         <div className="max-w-2xl mx-auto">
             <h1 className="text-3xl font-bold text-white mb-6">Edit Hero Section</h1>
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 bg-gray-800 p-6 rounded-lg text-white">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 bg-[#050505] border border-white/10 p-6 rounded-lg text-white">
                 <div>
                     <label className="block mb-1">Title</label>
                     <input {...register('title')} className="w-full p-2 bg-gray-700 rounded border border-gray-600" />
@@ -69,7 +69,7 @@ const HeroAdmin = () => {
                     </div>
                 </div>
 
-                <button type="submit" className="px-4 py-2 bg-brand text-black font-bold rounded hover:bg-yellow-600">
+                <button type="submit" className="px-4 py-2 bg-white text-black text-black font-bold rounded hover:bg-gray-200">
                     Save Changes
                 </button>
             </form>

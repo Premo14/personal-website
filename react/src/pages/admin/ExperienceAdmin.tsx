@@ -105,7 +105,7 @@ const ExperienceAdmin = () => {
             {/* List */}
             <div className="mb-8 space-y-4">
                 {experiences?.map((exp: Experience) => (
-                    <div key={exp.ID} className="bg-gray-800 p-4 rounded flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div key={exp.ID} className="bg-[#050505] border border-white/10 p-4 rounded flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                         <div className="flex-1">
                             <h3 className="font-bold text-xl">{exp.company}</h3>
                             <p className="text-gray-400">{exp.role}</p>
@@ -119,7 +119,7 @@ const ExperienceAdmin = () => {
             </div>
 
             {/* Form */}
-            <div className="bg-gray-800 p-6 rounded-lg">
+            <div className="bg-[#050505] border border-white/10 p-6 rounded-lg">
                 <h2 className="text-2xl font-bold mb-4">{editingId ? 'Edit Experience' : 'Add New Experience'}</h2>
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -134,7 +134,7 @@ const ExperienceAdmin = () => {
                         <div>
                             <label className="block text-sm text-gray-400 mb-1">End Date</label>
                             <div className="flex gap-2 items-center flex-wrap">
-                                <input type="date" {...register('end_date')} disabled={isCurrent} className={`flex-1 p-2 bg-gray-700 rounded border border-gray-600 min-w-[140px] ${isCurrent ? 'opacity-50' : ''}`} />
+                                <input type="date" {...register('end_date')} disabled={isCurrent} className={`flex-1 p-2 bg-gray-700 rounded border border-gray-600 min-w-35 ${isCurrent ? 'opacity-50' : ''}`} />
                                 <div className="flex items-center gap-2 whitespace-nowrap shrink-0">
                                     <input type="checkbox" {...register('is_current')} id="is_current_role" className="w-5 h-5 rounded border-gray-600 bg-gray-700 cursor-pointer" />
                                     <label htmlFor="is_current_role" className="cursor-pointer">Current</label>
@@ -150,7 +150,7 @@ const ExperienceAdmin = () => {
                     <textarea {...register('description')} placeholder="Description" rows={4} className="p-2 bg-gray-700 rounded border border-gray-600 w-full" />
                     <div className="flex justify-end gap-2">
                         {editingId && <button type="button" onClick={() => { setEditingId(null); reset(); }} className="px-4 py-2 bg-gray-600 rounded">Cancel</button>}
-                        <button type="submit" className="px-4 py-2 bg-brand text-black font-bold rounded hover:bg-yellow-600">
+                        <button type="submit" className="px-4 py-2 bg-white text-black font-bold rounded hover:bg-gray-200">
                             {editingId ? 'Update' : 'Add'}
                         </button>
                     </div>
