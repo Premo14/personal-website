@@ -134,7 +134,7 @@ Currently, I operate as a lead developer across multiple contracts, architecting
 	exp3 := models.Experience{
 		Company:     "Reflex Technologies LLC",
 		Role:        "Software Engineer (Contract)",
-		StartDate:   mustParse("2026-01-01"),
+		StartDate:   mustParse("2026-08-01"),
 		EndDate:     nil,
 		Location:    "Remote",
 		CompanyLink: "https://reflexny.com/",
@@ -176,7 +176,7 @@ Currently, I operate as a lead developer across multiple contracts, architecting
 * Integrated Tesseract OCR to accurately extract text from raw financial documents.
 * Orchestrated local Llama 3.1 (8B) models via Ollama to intelligently parse, categorize, and format extracted financial data automatically.`,
 		Technologies: models.JSONStringArray{"Go", "Fiber", "React", "Ollama", "Llama 3.1", "Tesseract OCR"},
-		StartDate:    mustParse("2026-01-01"),
+		StartDate:    mustParse("2026-08-01"),
 		EndDate:      nil,
 		ExperienceID: &exp3.ID,
 		Featured:     true,
